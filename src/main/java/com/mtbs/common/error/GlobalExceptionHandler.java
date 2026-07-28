@@ -51,6 +51,12 @@ public class GlobalExceptionHandler {
     return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
   }
 
+  @ExceptionHandler(com.mtbs.booking.InvalidBookingStateException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidBookingState(
+      com.mtbs.booking.InvalidBookingStateException ex, HttpServletRequest request) {
+    return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+  }
+
   @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
   public ResponseEntity<ErrorResponse> handleAccessDenied(
       org.springframework.security.access.AccessDeniedException ex, HttpServletRequest request) {
