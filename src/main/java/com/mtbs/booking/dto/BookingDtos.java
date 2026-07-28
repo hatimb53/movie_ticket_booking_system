@@ -10,13 +10,20 @@ public final class BookingDtos {
   private BookingDtos() {
   }
 
-  public record HoldRequest(@NotEmpty List<Long> showSeatIds) {
+  public record HoldRequest(@NotEmpty List<Long> showSeatIds, String discountCode) {
   }
 
   public record BookedSeat(Long showSeatId, String label, BigDecimal price) {
   }
 
   public record BookingResponse(
-      Long id, Long showId, String status, BigDecimal total, List<BookedSeat> seats) {
+      Long id,
+      Long showId,
+      String status,
+      BigDecimal subtotal,
+      BigDecimal discountAmount,
+      BigDecimal total,
+      String discountCode,
+      List<BookedSeat> seats) {
   }
 }

@@ -26,7 +26,8 @@ public class HoldController {
   @PreAuthorize("hasRole('CUSTOMER')")
   public ResponseEntity<BookingResponse> hold(
       @PathVariable Long id, @Valid @RequestBody HoldRequest request, Principal principal) {
-    BookingResponse response = holdService.hold(principal.getName(), id, request.showSeatIds());
+    BookingResponse response = holdService.hold(
+        principal.getName(), id, request.showSeatIds(), request.discountCode());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

@@ -4,6 +4,7 @@ import com.mtbs.booking.domain.Booking;
 import com.mtbs.booking.domain.BookingStatus;
 import com.mtbs.booking.dto.BookingDtos.BookingResponse;
 import com.mtbs.common.error.ResourceNotFoundException;
+import com.mtbs.discount.DiscountService;
 import com.mtbs.payment.PaymentGateway;
 import com.mtbs.payment.PaymentGateway.ChargeRequest;
 import com.mtbs.payment.PaymentGateway.PaymentOutcome;
@@ -32,16 +33,19 @@ public class PaymentService {
   private final ShowSeatRepository showSeatRepository;
   private final PaymentRepository paymentRepository;
   private final PaymentGateway paymentGateway;
+  private final DiscountService discountService;
 
   public PaymentService(
       BookingRepository bookingRepository,
       ShowSeatRepository showSeatRepository,
       PaymentRepository paymentRepository,
-      PaymentGateway paymentGateway) {
+      PaymentGateway paymentGateway,
+      DiscountService discountService) {
     this.bookingRepository = bookingRepository;
     this.showSeatRepository = showSeatRepository;
     this.paymentRepository = paymentRepository;
     this.paymentGateway = paymentGateway;
+    this.discountService = discountService;
   }
 
   @Transactional
@@ -67,6 +71,12 @@ public class PaymentService {
       }
     }
 
+    // If a discount is attached, fail fast if it's no longer redeemable — before charging.
+    boolean hasDiscount = booking.getDiscount() != null;
+    if (hasDiscount) {
+      discountService.assertRedeemable(booking.getDiscount().getId());
+    }
+
     PaymentOutcome outcome =
         paymentGateway.charge(new ChargeRequest(booking.getTotal(), token));
 
@@ -74,6 +84,9 @@ public class PaymentService {
       seats.forEach(ShowSeat::book);
       showSeatRepository.saveAll(seats);
       booking.markConfirmed();
+      if (hasDiscount) {
+        discountService.redeem(booking.getDiscount().getId());
+      }
       paymentRepository.save(new Payment(
           bookingId, PaymentStatus.SUCCESS, booking.getTotal(), outcome.reference()));
     } else {

@@ -57,6 +57,12 @@ public class GlobalExceptionHandler {
     return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
   }
 
+  @ExceptionHandler(com.mtbs.discount.DiscountNotApplicableException.class)
+  public ResponseEntity<ErrorResponse> handleDiscountNotApplicable(
+      com.mtbs.discount.DiscountNotApplicableException ex, HttpServletRequest request) {
+    return build(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), request, null);
+  }
+
   @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
   public ResponseEntity<ErrorResponse> handleAccessDenied(
       org.springframework.security.access.AccessDeniedException ex, HttpServletRequest request) {

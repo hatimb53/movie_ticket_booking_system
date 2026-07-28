@@ -16,7 +16,10 @@ final class BookingMapper {
         b.getId(),
         b.getShow().getId(),
         b.getStatus().name(),
+        b.getSubtotal(),
+        b.getDiscountAmount(),
         b.getTotal(),
+        b.getDiscount() != null ? b.getDiscount().getCode() : null,
         b.getSeats().stream().map(BookingMapper::toBookedSeat).toList());
   }
 

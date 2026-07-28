@@ -2,6 +2,7 @@ package com.mtbs.booking.domain;
 
 import com.mtbs.auth.domain.User;
 import com.mtbs.common.domain.BaseEntity;
+import com.mtbs.discount.domain.DiscountCode;
 import com.mtbs.show.domain.Show;
 import com.mtbs.show.domain.ShowSeat;
 import jakarta.persistence.Column;
@@ -43,17 +44,36 @@ public class Booking extends BaseEntity {
   private BookingStatus status;
 
   @Column(nullable = false)
+  private BigDecimal subtotal;
+
+  @Column(nullable = false)
+  private BigDecimal discountAmount;
+
+  @Column(nullable = false)
   private BigDecimal total;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "discount_code_id")
+  private DiscountCode discount;
 
   protected Booking() {
   }
 
-  public Booking(User owner, Show show, List<ShowSeat> seats, BigDecimal total) {
+  public Booking(User owner, Show show, List<ShowSeat> seats, BigDecimal subtotal) {
     this.owner = owner;
     this.show = show;
     this.seats = new ArrayList<>(seats);
-    this.total = total;
+    this.subtotal = subtotal;
+    this.discountAmount = BigDecimal.ZERO;
+    this.total = subtotal;
     this.status = BookingStatus.PENDING_PAYMENT;
+  }
+
+  /** Applies a discount, lowering the payable total. The code is redeemed only at confirmation. */
+  public void applyDiscount(DiscountCode discount, BigDecimal discountAmount, BigDecimal total) {
+    this.discount = discount;
+    this.discountAmount = discountAmount;
+    this.total = total;
   }
 
   public User getOwner() {
@@ -72,8 +92,20 @@ public class Booking extends BaseEntity {
     return status;
   }
 
+  public BigDecimal getSubtotal() {
+    return subtotal;
+  }
+
+  public BigDecimal getDiscountAmount() {
+    return discountAmount;
+  }
+
   public BigDecimal getTotal() {
     return total;
+  }
+
+  public DiscountCode getDiscount() {
+    return discount;
   }
 
   public void markConfirmed() {
