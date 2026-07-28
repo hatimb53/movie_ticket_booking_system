@@ -39,6 +39,10 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--app.seed.enabled=true
 
 H2 console (dev): `http://localhost:8080/h2-console` — JDBC URL `jdbc:h2:mem:mtbs`, user `sa`.
 
+**API docs (Swagger UI):** `http://localhost:8080/swagger-ui.html` (OpenAPI JSON at
+`/v3/api-docs`). Log in via `POST /auth/login`, click **Authorize**, and paste the returned token
+to try secured endpoints.
+
 ## Core flow
 
 ```
