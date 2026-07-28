@@ -6,10 +6,11 @@ understand the H2-vs-Postgres locking caveat. Supports the recorded video.
 
 **Blocked by:** 06 (minimum demoable). Ideally finalized after all feature slices.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] README documenting assumptions and design decisions (venue model, concurrency mechanism, pricing, refunds, auth, notifications).
-- [ ] Documented H2-vs-Postgres locking caveat and how the concurrency test proves serialization on H2; Postgres as a config swap.
-- [ ] Rich demo seed data (cities/theaters/screens/movies/shows + admin + a discount code + refund policy) via the seed harness.
-- [ ] Instructions to build/run/test, including the `JAVA_HOME`→JDK 17 note.
-- [ ] Stretch items listed as explicitly optional/out-of-scope-unless-time.
+- [x] README documenting assumptions and design decisions (venue model, concurrency mechanism, pricing, refunds, auth, notifications).
+- [x] Documented H2-vs-Postgres locking caveat and how the concurrency test proves serialization on H2; Postgres as a config swap.
+- [x] Rich idempotent demo seed data (city/theater/screen+layout/movies/shows + admin + customer + WELCOME10 discount + theater & default refund policies) via `DataSeeder` (`app.seed.enabled=true`).
+- [x] Build/run/test instructions incl. `JAVA_HOME`→JDK 17 and the seed-enabled run command.
+- [x] Stretch/possible-extensions listed as explicitly out-of-scope-unless-time.
+- [x] `DataSeederSmokeTest` boots the app with seeding on (isolated DB) and asserts data + idempotency.
