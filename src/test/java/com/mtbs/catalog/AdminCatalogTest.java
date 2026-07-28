@@ -78,10 +78,12 @@ class AdminCatalogTest {
     adminPost("/admin/movies",
         "{\"title\":\"Inception\",\"durationMinutes\":148,\"language\":\"English\",\"rating\":\"UA\"}");
 
+    // Assert by content, not position — other tests may have committed movies into shared H2.
     mockMvc.perform(get("/movies").header("Authorization", "Bearer " + customerToken))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].title", is("Inception")))
-        .andExpect(jsonPath("$[0].durationMinutes", is(148)));
+        .andExpect(jsonPath("$[*].title", org.hamcrest.Matchers.hasItem("Inception")))
+        .andExpect(jsonPath("$[?(@.title=='Inception')].durationMinutes",
+            org.hamcrest.Matchers.hasItem(148)));
   }
 
   @Test

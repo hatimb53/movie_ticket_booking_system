@@ -45,6 +45,12 @@ public class GlobalExceptionHandler {
     return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
   }
 
+  @ExceptionHandler(com.mtbs.booking.SeatUnavailableException.class)
+  public ResponseEntity<ErrorResponse> handleSeatUnavailable(
+      com.mtbs.booking.SeatUnavailableException ex, HttpServletRequest request) {
+    return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+  }
+
   @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
   public ResponseEntity<ErrorResponse> handleAccessDenied(
       org.springframework.security.access.AccessDeniedException ex, HttpServletRequest request) {
