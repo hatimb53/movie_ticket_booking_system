@@ -3,6 +3,7 @@ package com.mtbs.booking;
 import com.mtbs.booking.domain.Booking;
 import com.mtbs.booking.domain.BookingStatus;
 import com.mtbs.booking.dto.CancellationResponse;
+import com.mtbs.booking.event.BookingCancelledEvent;
 import com.mtbs.common.error.ResourceNotFoundException;
 import com.mtbs.discount.DiscountService;
 import com.mtbs.payment.PaymentGateway;
@@ -35,6 +36,7 @@ public class CancellationService {
   private final RefundPolicyResolver refundPolicyResolver;
   private final DiscountService discountService;
   private final PaymentGateway paymentGateway;
+  private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
   public CancellationService(
       BookingRepository bookingRepository,
@@ -42,13 +44,15 @@ public class CancellationService {
       RefundRepository refundRepository,
       RefundPolicyResolver refundPolicyResolver,
       DiscountService discountService,
-      PaymentGateway paymentGateway) {
+      PaymentGateway paymentGateway,
+      org.springframework.context.ApplicationEventPublisher eventPublisher) {
     this.bookingRepository = bookingRepository;
     this.showSeatRepository = showSeatRepository;
     this.refundRepository = refundRepository;
     this.refundPolicyResolver = refundPolicyResolver;
     this.discountService = discountService;
     this.paymentGateway = paymentGateway;
+    this.eventPublisher = eventPublisher;
   }
 
   @Transactional
@@ -90,6 +94,11 @@ public class CancellationService {
     }
 
     booking.markCancelled();
+    eventPublisher.publishEvent(new BookingCancelledEvent(
+        bookingId,
+        booking.getOwner().getEmail(),
+        booking.getShow().getMovie().getTitle(),
+        refundAmount));
     return new CancellationResponse(bookingId, booking.getStatus().name(), refundAmount, percent);
   }
 }

@@ -3,6 +3,7 @@ package com.mtbs.booking;
 import com.mtbs.booking.domain.Booking;
 import com.mtbs.booking.domain.BookingStatus;
 import com.mtbs.booking.dto.BookingDtos.BookingResponse;
+import com.mtbs.booking.event.BookingConfirmedEvent;
 import com.mtbs.common.error.ResourceNotFoundException;
 import com.mtbs.discount.DiscountService;
 import com.mtbs.payment.PaymentGateway;
@@ -34,18 +35,21 @@ public class PaymentService {
   private final PaymentRepository paymentRepository;
   private final PaymentGateway paymentGateway;
   private final DiscountService discountService;
+  private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
   public PaymentService(
       BookingRepository bookingRepository,
       ShowSeatRepository showSeatRepository,
       PaymentRepository paymentRepository,
       PaymentGateway paymentGateway,
-      DiscountService discountService) {
+      DiscountService discountService,
+      org.springframework.context.ApplicationEventPublisher eventPublisher) {
     this.bookingRepository = bookingRepository;
     this.showSeatRepository = showSeatRepository;
     this.paymentRepository = paymentRepository;
     this.paymentGateway = paymentGateway;
     this.discountService = discountService;
+    this.eventPublisher = eventPublisher;
   }
 
   @Transactional
@@ -89,6 +93,11 @@ public class PaymentService {
       }
       paymentRepository.save(new Payment(
           bookingId, PaymentStatus.SUCCESS, booking.getTotal(), outcome.reference()));
+      eventPublisher.publishEvent(new BookingConfirmedEvent(
+          bookingId,
+          booking.getOwner().getEmail(),
+          booking.getShow().getMovie().getTitle(),
+          booking.getShow().getStartTime()));
     } else {
       booking.markPaymentFailed();
       paymentRepository.save(new Payment(
