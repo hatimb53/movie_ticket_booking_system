@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Uses a test-only controller that deliberately throws each error type.
  */
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false) // exercises the error advice, not the security chain
 @Import(ErrorContractTest.ThrowingController.class)
 class ErrorContractTest {
 

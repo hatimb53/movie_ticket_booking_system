@@ -33,6 +33,24 @@ public class GlobalExceptionHandler {
     return build(HttpStatus.NOT_FOUND, ex.getMessage(), request, null);
   }
 
+  @ExceptionHandler(com.mtbs.auth.InvalidCredentialsException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidCredentials(
+      com.mtbs.auth.InvalidCredentialsException ex, HttpServletRequest request) {
+    return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), request, null);
+  }
+
+  @ExceptionHandler(com.mtbs.auth.DuplicateEmailException.class)
+  public ResponseEntity<ErrorResponse> handleDuplicateEmail(
+      com.mtbs.auth.DuplicateEmailException ex, HttpServletRequest request) {
+    return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+  }
+
+  @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+  public ResponseEntity<ErrorResponse> handleAccessDenied(
+      org.springframework.security.access.AccessDeniedException ex, HttpServletRequest request) {
+    return build(HttpStatus.FORBIDDEN, "Access denied", request, null);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex, HttpServletRequest request) {
     return build(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", request, null);

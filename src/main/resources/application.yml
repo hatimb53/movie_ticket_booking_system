@@ -20,3 +20,11 @@ spring:
 
 server:
   port: 8080
+
+app:
+  jwt:
+    # Base64-encoded 256-bit secret for HS256. Override via APP_JWT_SECRET in real deployments.
+    secret: ${APP_JWT_SECRET:c2VjcmV0LWtleS1mb3ItbXRicy1kZXYtb25seS1kby1ub3QtdXNlLWluLXByb2Q=}
+    expiration-ms: 3600000
+  seed:
+    enabled: false
