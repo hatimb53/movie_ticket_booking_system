@@ -7,11 +7,14 @@ manage movies. All of it is admin-only.
 
 **Blocked by:** 02.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] CRUD (create + list + read; update where sensible) for City, Theater (under a city), Screen (under a theater).
-- [ ] Screen seat-layout endpoint: `{rows, seatsPerRow, premiumRows}` → generates `Seat` rows with labels (e.g. `A1`) and `category ∈ {REGULAR, PREMIUM}`.
-- [ ] Movie CRUD (title, duration, language, rating).
-- [ ] All write endpoints admin-only (customer → 403); reads follow the browse slice's rules later.
-- [ ] Validation on all inputs; consistent error contract from ticket 01.
-- [ ] Integration tests covering the create-tree happy path and an RBAC negative case.
+- [x] CRUD (create + list + read; update where sensible) for City, Theater (under a city), Screen (under a theater).
+- [x] Screen seat-layout endpoint: `{rows, seatsPerRow, premiumRows}` → generates `Seat` rows with labels (e.g. `A1`) and `category ∈ {REGULAR, PREMIUM}`.
+- [x] Movie CRUD (title, duration, language, rating) — create/list/read/update.
+- [x] All write endpoints admin-only (customer → 403); reads open to any authenticated user.
+- [x] Validation on all inputs; consistent error contract (missing parent → 404).
+- [x] Integration tests: create-tree happy path, layout categorization, RBAC negative, 404 case.
+
+**Note:** Row labels roll over past Z (AA, AB, …) for large screens. Layout is replaceable
+(regenerates seats). Reads live in `CatalogQueryController`; richer browse/filtering is ticket 04.
