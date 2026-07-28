@@ -6,11 +6,14 @@ release on hold expiry. The customer can view their booking history.
 
 **Blocked by:** 05.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] `PaymentGateway` interface + deterministic `MockPaymentGateway`, with a documented way to force failure for tests.
-- [ ] `POST /bookings/{id}/pay`: records a `Payment`, transitions PENDING_PAYMENT → CONFIRMED (seats HELD→BOOKED) or → PAYMENT_FAILED.
-- [ ] HELD→BOOKED happens transactionally on successful payment.
-- [ ] `GET /bookings/me` returns the authenticated customer's bookings (with seats, total, payment).
-- [ ] Booking total computed server-side (tier × weekend) and stored on the booking.
-- [ ] Integration tests: hold→pay→CONFIRMED happy path; forced payment failure leaves booking unconfirmed and seats releasable.
+- [x] `PaymentGateway` interface + deterministic `MockPaymentGateway` (token `"fail"` forces failure).
+- [x] `POST /bookings/{id}/pay`: records a `Payment`, transitions PENDING_PAYMENT → CONFIRMED (seats HELD→BOOKED, 200) or → PAYMENT_FAILED (402).
+- [x] HELD→BOOKED happens transactionally on successful payment, under the same pessimistic lock as holds.
+- [x] `GET /bookings/me` returns the authenticated customer's bookings (seats, total, status).
+- [x] Booking total computed server-side at hold (tier × weekend) and stored on the booking.
+- [x] Integration tests: pay→CONFIRMED/seats BOOKED; forced failure→PAYMENT_FAILED/seat still HELD; double-pay→409; other customer→403.
+
+**Note:** Pay re-locks and re-validates the hold (expired hold → 409) so payment can't race a
+re-hold. Failed payment records a FAILED `Payment` and leaves seats HELD to expire via the sweeper.

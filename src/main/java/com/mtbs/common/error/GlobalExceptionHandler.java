@@ -33,6 +33,42 @@ public class GlobalExceptionHandler {
     return build(HttpStatus.NOT_FOUND, ex.getMessage(), request, null);
   }
 
+  @ExceptionHandler(com.mtbs.auth.InvalidCredentialsException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidCredentials(
+      com.mtbs.auth.InvalidCredentialsException ex, HttpServletRequest request) {
+    return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), request, null);
+  }
+
+  @ExceptionHandler(com.mtbs.auth.DuplicateEmailException.class)
+  public ResponseEntity<ErrorResponse> handleDuplicateEmail(
+      com.mtbs.auth.DuplicateEmailException ex, HttpServletRequest request) {
+    return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+  }
+
+  @ExceptionHandler(com.mtbs.booking.SeatUnavailableException.class)
+  public ResponseEntity<ErrorResponse> handleSeatUnavailable(
+      com.mtbs.booking.SeatUnavailableException ex, HttpServletRequest request) {
+    return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+  }
+
+  @ExceptionHandler(com.mtbs.booking.InvalidBookingStateException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidBookingState(
+      com.mtbs.booking.InvalidBookingStateException ex, HttpServletRequest request) {
+    return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+  }
+
+  @ExceptionHandler(com.mtbs.discount.DiscountNotApplicableException.class)
+  public ResponseEntity<ErrorResponse> handleDiscountNotApplicable(
+      com.mtbs.discount.DiscountNotApplicableException ex, HttpServletRequest request) {
+    return build(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), request, null);
+  }
+
+  @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+  public ResponseEntity<ErrorResponse> handleAccessDenied(
+      org.springframework.security.access.AccessDeniedException ex, HttpServletRequest request) {
+    return build(HttpStatus.FORBIDDEN, "Access denied", request, null);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex, HttpServletRequest request) {
     return build(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", request, null);

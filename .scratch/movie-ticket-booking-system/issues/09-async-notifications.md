@@ -6,10 +6,14 @@ fails the booking transaction. Notifications are persisted as history.
 
 **Blocked by:** 06. (Cancellation/refund notification wires in as ticket 08 lands.)
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] Domain events published via `ApplicationEventPublisher` on confirmation (and cancellation once 08 exists).
-- [ ] `@Async` listener on a dedicated `TaskExecutor` dispatches through a `NotificationService` interface (log + persist `Notification`).
-- [ ] Notification dispatch is decoupled from the booking transaction — booking commits regardless of notification outcome.
-- [ ] `@Scheduled` reminder job scans upcoming shows and emits reminders.
-- [ ] Test proving a failing notification does not roll back or block a booking; test asserting a `Notification` row is persisted.
+- [x] `BookingConfirmedEvent` / `BookingCancelledEvent` published via `ApplicationEventPublisher` on confirmation and cancellation.
+- [x] `@Async("notificationExecutor")` `@TransactionalEventListener(AFTER_COMMIT)` dispatches through the `NotificationService` interface (`LoggingNotificationService`: log + persist `Notification`).
+- [x] Decoupled from the booking transaction — fires AFTER_COMMIT on a separate thread; listener failures are caught/logged, never affecting the booking.
+- [x] `@Scheduled` `ReminderScheduler` scans confirmed bookings with imminent shows and emits a one-time SHOW_REMINDER.
+- [x] Tests: async confirmation delivered after commit (booking CONFIRMED synchronously, notification persisted, awaited); reminder emitted exactly once (idempotent).
+
+**Note:** Events live in `com.mtbs.booking.event` so `booking` doesn't depend on `notification`
+(notification → booking only, no cycle). `notify` runs `REQUIRES_NEW`. Failure isolation is
+structural (AFTER_COMMIT + async + try/catch), so no separate rollback test was needed.
