@@ -7,12 +7,12 @@ refund record is created.
 
 **Blocked by:** 07.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] `RefundPolicy` (ordered tiers {hoursBeforeShow → percent}), admin CRUD, theater-owned + a system default.
-- [ ] `POST /bookings/{id}/cancel` on a CONFIRMED booking before showtime → CANCELLED.
-- [ ] Policy resolution: booking → show → screen → theater, falling back to system default; compute hours-until-show → tier percent.
-- [ ] Refund `total × percent` via the mock gateway; create a `Refund` record.
-- [ ] Seats released (BOOKED→AVAILABLE); discount `usedCount` rolled back.
-- [ ] Cancellation blocked after showtime (or per policy) with a clear error.
-- [ ] Integration tests: cancel at different lead times → different refund %, seats freed, discount usage restored.
+- [x] `RefundPolicy` (tiers {hoursBeforeShow → percent} as an @ElementCollection), admin upsert + list, theater-owned + a system default (theaterId null).
+- [x] `POST /bookings/{id}/cancel` on a CONFIRMED booking before showtime → CANCELLED.
+- [x] Policy resolution: theater policy → system default → built-in 100% fallback; hours-until-show → highest matching tier percent.
+- [x] Refund `total × percent` via the mock gateway (`PaymentGateway.refund`); create a `Refund` record.
+- [x] Seats released (BOOKED→AVAILABLE) under the pessimistic lock; discount `usedCount` rolled back.
+- [x] Cancellation blocked after showtime (409) and on non-CONFIRMED bookings (409); other customer → 403.
+- [x] Integration tests: 100% (>24h) with discount rollback + seat release, 50% (~5h) partial, unpaid → 409.

@@ -11,9 +11,17 @@ public interface PaymentGateway {
 
   PaymentOutcome charge(ChargeRequest request);
 
+  RefundOutcome refund(RefundRequest request);
+
   record ChargeRequest(BigDecimal amount, String token) {
   }
 
   record PaymentOutcome(boolean success, String reference) {
+  }
+
+  record RefundRequest(BigDecimal amount, String originalReference) {
+  }
+
+  record RefundOutcome(boolean success, String reference) {
   }
 }

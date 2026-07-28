@@ -2,6 +2,7 @@ package com.mtbs.booking;
 
 import com.mtbs.booking.domain.BookingStatus;
 import com.mtbs.booking.dto.BookingDtos.BookingResponse;
+import com.mtbs.booking.dto.CancellationResponse;
 import com.mtbs.booking.dto.PayRequest;
 import jakarta.validation.Valid;
 import java.security.Principal;
@@ -24,11 +25,15 @@ public class BookingController {
 
   private final PaymentService paymentService;
   private final BookingQueryService bookingQueryService;
+  private final CancellationService cancellationService;
 
   public BookingController(
-      PaymentService paymentService, BookingQueryService bookingQueryService) {
+      PaymentService paymentService,
+      BookingQueryService bookingQueryService,
+      CancellationService cancellationService) {
     this.paymentService = paymentService;
     this.bookingQueryService = bookingQueryService;
+    this.cancellationService = cancellationService;
   }
 
   @PostMapping("/{id}/pay")
@@ -39,6 +44,11 @@ public class BookingController {
         ? HttpStatus.PAYMENT_REQUIRED
         : HttpStatus.OK;
     return ResponseEntity.status(status).body(response);
+  }
+
+  @PostMapping("/{id}/cancel")
+  public CancellationResponse cancel(@PathVariable Long id, Principal principal) {
+    return cancellationService.cancel(principal.getName(), id);
   }
 
   @GetMapping("/me")

@@ -19,4 +19,10 @@ public class MockPaymentGateway implements PaymentGateway {
     }
     return new PaymentOutcome(true, "MOCK-" + UUID.randomUUID());
   }
+
+  @Override
+  public RefundOutcome refund(RefundRequest request) {
+    // The mock always refunds successfully.
+    return new RefundOutcome(true, "MOCK-REFUND-" + UUID.randomUUID());
+  }
 }
