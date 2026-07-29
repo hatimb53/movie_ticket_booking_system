@@ -125,7 +125,7 @@ class PaymentFlowTest {
   // --- helpers ---
 
   private ResultActions hold(String token, long sId) throws Exception {
-    return mockMvc.perform(post("/bookings/hold")
+    return mockMvc.perform(post("/bookings")
         .header("Authorization", "Bearer " + token)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + sId + "]}"));

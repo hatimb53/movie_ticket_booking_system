@@ -54,12 +54,13 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
 1. **Auth** — `POST /auth/register` (creates a CUSTOMER), `POST /auth/login` → JWT. Send it as
    `Authorization: Bearer <token>`.
 2. **Browse** — `GET /shows?city=&movieId=&date=`, `GET /shows/{id}/seats` (live availability + price).
-3. **Hold** — `POST /bookings/hold` with `showId`, the chosen `showSeatIds` (+ optional
+3. **Hold** — `POST /bookings` with `showId`, the chosen `showSeatIds` (+ optional
    `discountCode`) → a `PENDING_PAYMENT` booking; seats are held for a configurable TTL (default 5 min).
 4. **Pay** — `POST /bookings/{id}/pay` → `CONFIRMED` (seats BOOKED) or `PAYMENT_FAILED` (402).
 5. **History / cancel** — `GET /bookings`, `POST /bookings/{id}/cancel` (time-tiered refund).
 6. **Admin** — `/admin/**` (cities, theaters, screens + seat layout, movies, shows, discounts,
-   refund policies), all `ADMIN`-only.
+   refund policies, pricing config), all `ADMIN`-only. `POST /admin/shows/{id}/cancel` cancels a
+   scheduled show (full refund of confirmed bookings, expiry of unpaid holds).
 
 ## Design decisions & assumptions
 
@@ -73,9 +74,28 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
   **pessimistic write lock** (`SELECT … FOR UPDATE`, seats locked in id order to avoid deadlocks).
   Concurrent attempts on the same seat serialize: exactly one wins, the rest get a clean 409. An
   expired hold is reclaimable under the same lock; a `@Scheduled` sweeper also releases lapsed holds
-  so listings stay clean. Payment re-locks and re-validates the hold before charging.
+  so listings stay clean. Payment re-locks and re-validates the hold before charging. Default hold
+  TTL is 30s and the sweeper runs every 15s (tuned short for demoing the expiry flow quickly — both
+  are `app.hold.ttl-seconds` / `app.hold.sweeper-interval-ms`).
+- **Booking status stays in sync with seat expiry, not just the sweeper.** A booking whose hold has
+  lapsed is reported `EXPIRED` immediately on read (`GET /bookings` compares live against
+  `ShowSeat.heldUntil`), even inside the sweeper's polling window — no DB write happens on that read,
+  the sweeper (or a competing `hold()`) still owns the actual transition. A booking's *displayed*
+  seats are an immutable snapshot taken at hold time (`BookedSeatSnapshot`), independent of
+  `ShowSeat.booking_id`'s live FK — that FK can later move to a different booking once a lapsed
+  hold's seat is reclaimed, which would otherwise silently empty out the original booking's history.
+- **Show scheduling enforces a screen-slot rule.** A new show must not overlap any existing show on
+  the same screen, with a **30-minute buffer** on both sides, computed from each movie's actual
+  `durationMinutes` (not a fixed slot length). Enforced under a pessimistic lock on the `Screen` row
+  so two admins racing to book the same slot serialize instead of double-booking it.
+- **Shows can be cancelled but not edited.** There's no `PUT` on a show — only
+  `POST /admin/shows/{id}/cancel` (see Core flow above). Editing start time or price on a live show
+  was judged out of scope: start time interacts with the overlap rule, and prices are deliberately
+  frozen onto each `ShowSeat` at scheduling time regardless.
 - **Pricing.** Two axes: **seat-category base** (regular/premium, per show) × **weekend surcharge**
-  (Sat/Sun, `app.pricing.weekend-multiplier`, default 1.25). Always computed server-side.
+  (Sat/Sun). The multiplier is **admin-configurable at runtime** via `GET`/`PUT
+  /admin/pricing-config` (a single-row `PricingConfig`, seeded from `app.pricing.weekend-multiplier`,
+  default 1.25, on first read) — not a fixed value requiring a restart to change.
 - **Discounts.** Percentage/flat with optional cap, validity window, minimum, and a **global usage
   limit**. Validated at hold; **redeemed at confirmation under a row lock** so the limit can't be
   over-redeemed, and only a successful payment consumes the code.
@@ -83,7 +103,12 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
   `"fail"` forces failure) — swap in a real provider without touching the booking flow.
 - **Refunds.** Time-tiered `RefundPolicy` per theater, falling back to a system default (and to
   100% if none configured). Cancelling before showtime refunds `total × tier%` via the gateway,
-  releases seats, and rolls back discount usage.
+  releases seats, and rolls back discount usage. `POST /admin/refund-policies` is an **upsert**
+  keyed by `theaterId` (re-posting replaces a theater's tiers); a theater's `theaterId` column is
+  DB-unique so duplicates are structurally impossible. There is deliberately no delete — a policy
+  can only be replaced, never removed back to "no override." An admin show-cancellation always
+  refunds 100% regardless of policy (the theater's fault, not the customer's, and there's no
+  hours-before-show schedule left to apply a tier against once the show itself is gone).
 - **Notifications.** Confirmation/cancellation are published as domain events and delivered by an
   `@Async` `@TransactionalEventListener(AFTER_COMMIT)` — **never blocking or failing the booking**.
   A `@Scheduled` reminder job notifies once for imminent shows. Delivery logs + persists a
@@ -100,6 +125,10 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
   modeling). "Weekend" = Saturday/Sunday of the show's date.
 - One booking attempt per hold; a hold is all-or-nothing across its seats.
 - A failed payment leaves seats HELD to expire naturally (no immediate release).
+- Catalog writes (`City`, `Theater`, `Screen`/layout) are create-only, no `PUT`/`DELETE` — `Movie`
+  is the one exception since its attributes are genuinely correctable post-creation. Editing a
+  screen's layout after shows/bookings exist against it was judged a correctness hazard (it could
+  orphan a customer's already-booked seat), so it's out of scope rather than half-solved.
 
 ## Concurrency test & the H2 caveat
 
@@ -121,7 +150,8 @@ Postgres-backed tests but dropped (no Docker available); hence H2 with the cavea
 ## Possible extensions (not built)
 
 Per-user discount redemption limits, per-show refund-policy overrides, search-by-title / "now
-showing", and payment retry/idempotency keys.
+showing", payment retry/idempotency keys, and a delete for refund policies (currently upsert-only
+by design — see Design decisions above).
 
 ## Project layout
 
