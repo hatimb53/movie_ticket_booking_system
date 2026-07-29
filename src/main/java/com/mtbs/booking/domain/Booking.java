@@ -5,7 +5,9 @@ import com.mtbs.common.domain.BaseEntity;
 import com.mtbs.discount.domain.DiscountCode;
 import com.mtbs.show.domain.Show;
 import com.mtbs.show.domain.ShowSeat;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,10 +15,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A customer's reservation of specific show seats. Owns the {@code booking_id} FK on the held seats
@@ -38,6 +42,16 @@ public class Booking extends BaseEntity {
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "booking_id")
   private List<ShowSeat> seats = new ArrayList<>();
+
+  /**
+   * Immutable snapshot of the seats as held/booked, independent of {@link #seats}'s live FK (which
+   * can move to a different booking once this one's hold lapses and the seat is reclaimed). This
+   * is what displays a booking's history correctly regardless of what happens afterward.
+   */
+  @ElementCollection
+  @CollectionTable(name = "booking_seat_snapshots", joinColumns = @JoinColumn(name = "booking_id"))
+  @OrderColumn(name = "seat_order")
+  private List<BookedSeatSnapshot> bookedSeats = new ArrayList<>();
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
@@ -63,6 +77,9 @@ public class Booking extends BaseEntity {
     this.owner = owner;
     this.show = show;
     this.seats = new ArrayList<>(seats);
+    this.bookedSeats = seats.stream()
+        .map(s -> new BookedSeatSnapshot(s.getId(), s.getSeat().getLabel(), s.getPrice()))
+        .collect(Collectors.toCollection(ArrayList::new));
     this.subtotal = subtotal;
     this.discountAmount = BigDecimal.ZERO;
     this.total = subtotal;
@@ -86,6 +103,10 @@ public class Booking extends BaseEntity {
 
   public List<ShowSeat> getSeats() {
     return seats;
+  }
+
+  public List<BookedSeatSnapshot> getBookedSeats() {
+    return bookedSeats;
   }
 
   public BookingStatus getStatus() {
