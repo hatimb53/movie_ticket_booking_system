@@ -28,6 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ShowService {
 
+  /** Minimum gap required between one show's end and the next show's start on the same screen. */
+  private static final int BUFFER_MINUTES = 30;
+
   private final MovieRepository movieRepository;
   private final ScreenRepository screenRepository;
   private final ShowRepository showRepository;
@@ -51,11 +54,30 @@ public class ShowService {
   public ShowResponse scheduleShow(ScheduleShowRequest request) {
     Movie movie = movieRepository.findById(request.movieId())
         .orElseThrow(() -> new ResourceNotFoundException("Movie " + request.movieId() + " not found"));
-    Screen screen = screenRepository.findById(request.screenId())
+
+    // Lock the screen row first so two concurrent scheduleShow calls on the same screen
+    // serialize: the second call blocks here until the first commits, then re-checks overlap
+    // against the now-committed show instead of racing past a stale read.
+    Screen screen = screenRepository.lockById(request.screenId())
         .orElseThrow(() ->
             new ResourceNotFoundException("Screen " + request.screenId() + " not found"));
     if (screen.getSeats().isEmpty()) {
       throw new IllegalStateException("Screen " + screen.getId() + " has no seat layout");
+    }
+
+    LocalDateTime newStart = request.startTime();
+    LocalDateTime newEnd = newStart.plusMinutes(movie.getDurationMinutes());
+    for (Show existing : showRepository.findByScreenId(screen.getId())) {
+      LocalDateTime existingStart = existing.getStartTime();
+      LocalDateTime existingEnd = existingStart.plusMinutes(existing.getMovie().getDurationMinutes());
+      boolean overlaps = newStart.isBefore(existingEnd.plusMinutes(BUFFER_MINUTES))
+          && existingStart.isBefore(newEnd.plusMinutes(BUFFER_MINUTES));
+      if (overlaps) {
+        throw new ShowOverlapException(
+            "Show would overlap show " + existing.getId() + " (" + existingStart + " - "
+                + existingEnd + ") on screen " + screen.getId() + " — needs a "
+                + BUFFER_MINUTES + "-minute buffer");
+      }
     }
 
     Show show = showRepository.save(new Show(
