@@ -120,6 +120,10 @@ public class Booking extends BaseEntity {
     this.status = BookingStatus.CANCELLED;
   }
 
+  public void markExpired() {
+    this.status = BookingStatus.EXPIRED;
+  }
+
   public void setTotal(BigDecimal total) {
     this.total = total;
   }
