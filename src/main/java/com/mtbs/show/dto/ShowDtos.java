@@ -45,4 +45,8 @@ public final class ShowDtos {
   public record PageResponse<T>(
       List<T> content, int page, int size, long totalElements, int totalPages) {
   }
+
+  public record ShowCancellationResponse(
+      Long showId, int bookingsRefunded, BigDecimal totalRefunded, int bookingsExpired) {
+  }
 }

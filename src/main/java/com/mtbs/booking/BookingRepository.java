@@ -1,6 +1,7 @@
 package com.mtbs.booking;
 
 import com.mtbs.booking.domain.Booking;
+import com.mtbs.booking.domain.BookingStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,8 @@ import org.springframework.data.repository.query.Param;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
   List<Booking> findByOwnerEmailOrderByIdDesc(String email);
+
+  List<Booking> findByShowIdAndStatus(Long showId, BookingStatus status);
 
   @Query("""
       select distinct b from Booking b join b.seats s

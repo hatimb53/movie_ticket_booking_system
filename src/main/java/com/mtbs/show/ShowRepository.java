@@ -11,17 +11,24 @@ import org.springframework.data.repository.query.Param;
 
 public interface ShowRepository extends JpaRepository<Show, Long> {
 
-  /** Fetches the movie eagerly — the overlap check needs each show's runtime. */
-  @Query("select s from Show s join fetch s.movie where s.screen.id = :screenId")
+  /**
+   * Fetches the movie eagerly — the overlap check needs each show's runtime. Excludes cancelled
+   * shows so a cancelled show's screen slot is free to reschedule into.
+   */
+  @Query("""
+      select s from Show s join fetch s.movie
+      where s.screen.id = :screenId and s.status <> com.mtbs.show.domain.ShowStatus.CANCELLED
+      """)
   List<Show> findByScreenId(@Param("screenId") Long screenId);
 
   /**
    * Browse shows with all filters optional: city, movie, and a date window. A null filter matches
-   * everything for that dimension.
+   * everything for that dimension. Cancelled shows never appear in the customer browse.
    */
   @Query("""
       select s from Show s
-      where (:cityId is null or s.screen.theater.city.id = :cityId)
+      where s.status <> com.mtbs.show.domain.ShowStatus.CANCELLED
+        and (:cityId is null or s.screen.theater.city.id = :cityId)
         and (:movieId is null or s.movie.id = :movieId)
         and (:from is null or s.startTime >= :from)
         and (:to is null or s.startTime < :to)

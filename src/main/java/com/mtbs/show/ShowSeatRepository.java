@@ -23,5 +23,11 @@ public interface ShowSeatRepository extends JpaRepository<ShowSeat, Long> {
   @Query("select ss from ShowSeat ss where ss.id in :ids order by ss.id asc")
   List<ShowSeat> lockByIds(@Param("ids") List<Long> ids);
 
+  /** Locks every seat of a show — used when cancelling a show, to serialize against any
+   *  concurrent hold()/pay() attempt on its seats. */
+  @Lock(LockModeType.PESSIMISTIC_WRITE)
+  @Query("select ss from ShowSeat ss where ss.show.id = :showId order by ss.id asc")
+  List<ShowSeat> lockByShowId(@Param("showId") Long showId);
+
   List<ShowSeat> findByStatusAndHeldUntilBefore(ShowSeatStatus status, Instant now);
 }
