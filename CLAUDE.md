@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-SDE-2 take-home assignment: a Movie Ticket Booking System REST API. Full requirements are in
+Assignment: a Movie Ticket Booking System REST API. Full requirements are in
 `docs/Movie Ticket Booking System.pdf`. Scaffolded as a Maven + Spring Boot 3.3.4 project
 (Java 17, base package `com.mtbs`), with H2 as the default dev/test datasource — swap to a real
 DB before calling persistence "done" if that matters for the submission. Build/test:
