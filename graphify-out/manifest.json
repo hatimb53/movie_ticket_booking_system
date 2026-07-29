@@ -1,0 +1,852 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1785248906.5502207,
+    "ast_hash": "7a074b2bff0db7f0491753298254e584",
+    "semantic_hash": "7a074b2bff0db7f0491753298254e584"
+  },
+  ".claude/settings.local.json": {
+    "mtime": 1785300255.6806223,
+    "ast_hash": "d26374551af8312f1f5fa33512acaa07",
+    "semantic_hash": ""
+  },
+  ".claude/skills/diagnosing-bugs/scripts/hitl-loop.template.sh": {
+    "mtime": 1785234340.4267774,
+    "ast_hash": "27d758d3557409fbb17bc3cced9367cf",
+    "semantic_hash": "27d758d3557409fbb17bc3cced9367cf"
+  },
+  "pom.xml": {
+    "mtime": 1785248399.811849,
+    "ast_hash": "99a9d0656bcbde77a2b3f04138a08ab5",
+    "semantic_hash": "99a9d0656bcbde77a2b3f04138a08ab5"
+  },
+  "src/main/java/com/mtbs/MovieTicketBookingSystemApplication.java": {
+    "mtime": 1785234526.7964327,
+    "ast_hash": "5c021246d8666c396b8e66718a1515fa",
+    "semantic_hash": "5c021246d8666c396b8e66718a1515fa"
+  },
+  "src/main/java/com/mtbs/auth/AuthController.java": {
+    "mtime": 1785246494.3164947,
+    "ast_hash": "b6dded0a022c1c2c3621006040b12d30",
+    "semantic_hash": "b6dded0a022c1c2c3621006040b12d30"
+  },
+  "src/main/java/com/mtbs/auth/AuthService.java": {
+    "mtime": 1785246494.317371,
+    "ast_hash": "f89d24a9dc99b9b67a96a46206facecf",
+    "semantic_hash": "f89d24a9dc99b9b67a96a46206facecf"
+  },
+  "src/main/java/com/mtbs/auth/DuplicateEmailException.java": {
+    "mtime": 1785246494.317371,
+    "ast_hash": "18ecca616cbe00e8a44c6609ce834daa",
+    "semantic_hash": "18ecca616cbe00e8a44c6609ce834daa"
+  },
+  "src/main/java/com/mtbs/auth/InvalidCredentialsException.java": {
+    "mtime": 1785246494.3183794,
+    "ast_hash": "66379a9ba697ef830f322d3a27cc7308",
+    "semantic_hash": "66379a9ba697ef830f322d3a27cc7308"
+  },
+  "src/main/java/com/mtbs/auth/JwtAuthenticationFilter.java": {
+    "mtime": 1785246494.3193786,
+    "ast_hash": "0c144fc5edf76a328ae200424f20c826",
+    "semantic_hash": "0c144fc5edf76a328ae200424f20c826"
+  },
+  "src/main/java/com/mtbs/auth/JwtService.java": {
+    "mtime": 1785246494.320377,
+    "ast_hash": "4e409bdf88f788f8d87b1c7553725f97",
+    "semantic_hash": "4e409bdf88f788f8d87b1c7553725f97"
+  },
+  "src/main/java/com/mtbs/auth/UserRepository.java": {
+    "mtime": 1785246494.3218622,
+    "ast_hash": "d0f4fee67e67bc469fcbee975387dcdd",
+    "semantic_hash": "d0f4fee67e67bc469fcbee975387dcdd"
+  },
+  "src/main/java/com/mtbs/auth/domain/Role.java": {
+    "mtime": 1785246494.3228722,
+    "ast_hash": "dc276b92be8d19409f2dce5613d20ff1",
+    "semantic_hash": "dc276b92be8d19409f2dce5613d20ff1"
+  },
+  "src/main/java/com/mtbs/auth/domain/User.java": {
+    "mtime": 1785246494.3228722,
+    "ast_hash": "0d9ee0db0bbdcfb6c5fbdca5420cf1bf",
+    "semantic_hash": "0d9ee0db0bbdcfb6c5fbdca5420cf1bf"
+  },
+  "src/main/java/com/mtbs/auth/dto/AuthResponse.java": {
+    "mtime": 1785246494.3238704,
+    "ast_hash": "2ebec3e92174ee45d41da80953fe1495",
+    "semantic_hash": "2ebec3e92174ee45d41da80953fe1495"
+  },
+  "src/main/java/com/mtbs/auth/dto/LoginRequest.java": {
+    "mtime": 1785246494.324873,
+    "ast_hash": "34f68537ec8790c0bc8d338045d0bb59",
+    "semantic_hash": "34f68537ec8790c0bc8d338045d0bb59"
+  },
+  "src/main/java/com/mtbs/auth/dto/RegisterRequest.java": {
+    "mtime": 1785246494.325871,
+    "ast_hash": "fa547ecc50fb27c5643e530f7f916d5d",
+    "semantic_hash": "fa547ecc50fb27c5643e530f7f916d5d"
+  },
+  "src/main/java/com/mtbs/auth/dto/UserResponse.java": {
+    "mtime": 1785246494.325871,
+    "ast_hash": "caee4018e17d4344cc5f6c520285fd98",
+    "semantic_hash": "caee4018e17d4344cc5f6c520285fd98"
+  },
+  "src/main/java/com/mtbs/booking/BookingController.java": {
+    "mtime": 1785300167.8488646,
+    "ast_hash": "fbe2a0655986d268fdcd86ee458a8270",
+    "semantic_hash": ""
+  },
+  "src/main/java/com/mtbs/booking/BookingMapper.java": {
+    "mtime": 1785246494.3280308,
+    "ast_hash": "9c308ccd036bd10374df5ac32443bc64",
+    "semantic_hash": "9c308ccd036bd10374df5ac32443bc64"
+  },
+  "src/main/java/com/mtbs/booking/BookingRepository.java": {
+    "mtime": 1785246494.3300307,
+    "ast_hash": "05d195e0f94c54aaf8081cf785b9210d",
+    "semantic_hash": "05d195e0f94c54aaf8081cf785b9210d"
+  },
+  "src/main/java/com/mtbs/booking/InvalidBookingStateException.java": {
+    "mtime": 1785246494.3340335,
+    "ast_hash": "14102062a93d9472a877f473e2019e81",
+    "semantic_hash": "14102062a93d9472a877f473e2019e81"
+  },
+  "src/main/java/com/mtbs/booking/SeatUnavailableException.java": {
+    "mtime": 1785246494.3350284,
+    "ast_hash": "1f0b28e765ecdbd0305ff3c2c16c1df7",
+    "semantic_hash": "1f0b28e765ecdbd0305ff3c2c16c1df7"
+  },
+  "src/main/java/com/mtbs/booking/domain/Booking.java": {
+    "mtime": 1785246494.3360329,
+    "ast_hash": "8b4e884dd22bcd272b0d3ca88f76236a",
+    "semantic_hash": "8b4e884dd22bcd272b0d3ca88f76236a"
+  },
+  "src/main/java/com/mtbs/booking/domain/BookingStatus.java": {
+    "mtime": 1785246494.3370292,
+    "ast_hash": "9893b0df2d2ca6ffb529f0a071867942",
+    "semantic_hash": "9893b0df2d2ca6ffb529f0a071867942"
+  },
+  "src/main/java/com/mtbs/booking/dto/BookingDtos.java": {
+    "mtime": 1785246494.3380296,
+    "ast_hash": "9d5f40c721a47b45fac8ee0c783026d3",
+    "semantic_hash": "9d5f40c721a47b45fac8ee0c783026d3"
+  },
+  "src/main/java/com/mtbs/booking/dto/CancellationResponse.java": {
+    "mtime": 1785246494.3380296,
+    "ast_hash": "7b9b8237c6725f465e9a1e542014f948",
+    "semantic_hash": "7b9b8237c6725f465e9a1e542014f948"
+  },
+  "src/main/java/com/mtbs/booking/dto/PayRequest.java": {
+    "mtime": 1785246494.339031,
+    "ast_hash": "a0eb58145ee609f9d4de4414f242a3fd",
+    "semantic_hash": "a0eb58145ee609f9d4de4414f242a3fd"
+  },
+  "src/main/java/com/mtbs/booking/event/BookingCancelledEvent.java": {
+    "mtime": 1785246494.3400302,
+    "ast_hash": "175e6f42cca5dfc063433cd249a9c174",
+    "semantic_hash": "175e6f42cca5dfc063433cd249a9c174"
+  },
+  "src/main/java/com/mtbs/booking/event/BookingConfirmedEvent.java": {
+    "mtime": 1785246494.3400302,
+    "ast_hash": "1a0073de8410366a086b64d0ed01ec9b",
+    "semantic_hash": "1a0073de8410366a086b64d0ed01ec9b"
+  },
+  "src/main/java/com/mtbs/catalog/AdminCatalogController.java": {
+    "mtime": 1785246494.3410308,
+    "ast_hash": "41c759a3db6d4c68b3ef28ca868ca90d",
+    "semantic_hash": "41c759a3db6d4c68b3ef28ca868ca90d"
+  },
+  "src/main/java/com/mtbs/catalog/CatalogMapper.java": {
+    "mtime": 1785246494.3420293,
+    "ast_hash": "055635929424a1088162cfbe0c0f0451",
+    "semantic_hash": "055635929424a1088162cfbe0c0f0451"
+  },
+  "src/main/java/com/mtbs/catalog/CatalogQueryController.java": {
+    "mtime": 1785246494.3420293,
+    "ast_hash": "3c0c0768dda7ff9903dfa1bfdccad7a9",
+    "semantic_hash": "3c0c0768dda7ff9903dfa1bfdccad7a9"
+  },
+  "src/main/java/com/mtbs/catalog/CatalogService.java": {
+    "mtime": 1785246494.3430283,
+    "ast_hash": "7af9206e9aadcf1dc14879e133d157e4",
+    "semantic_hash": "7af9206e9aadcf1dc14879e133d157e4"
+  },
+  "src/main/java/com/mtbs/catalog/CityRepository.java": {
+    "mtime": 1785246494.3430283,
+    "ast_hash": "63ae6f743675131da60f4527c200284f",
+    "semantic_hash": "63ae6f743675131da60f4527c200284f"
+  },
+  "src/main/java/com/mtbs/catalog/MovieRepository.java": {
+    "mtime": 1785246494.3450289,
+    "ast_hash": "ac109c40783a21d85835607d957960a2",
+    "semantic_hash": "ac109c40783a21d85835607d957960a2"
+  },
+  "src/main/java/com/mtbs/catalog/ScreenRepository.java": {
+    "mtime": 1785246494.3460371,
+    "ast_hash": "e49db6eac511d32463007bf80db0be43",
+    "semantic_hash": "e49db6eac511d32463007bf80db0be43"
+  },
+  "src/main/java/com/mtbs/catalog/TheaterRepository.java": {
+    "mtime": 1785246494.3470325,
+    "ast_hash": "729534c9bbed0cc6cc757965d3ac2c86",
+    "semantic_hash": "729534c9bbed0cc6cc757965d3ac2c86"
+  },
+  "src/main/java/com/mtbs/catalog/domain/City.java": {
+    "mtime": 1785246494.3480306,
+    "ast_hash": "19af3ec480c18eacc9019468f3dde652",
+    "semantic_hash": "19af3ec480c18eacc9019468f3dde652"
+  },
+  "src/main/java/com/mtbs/catalog/domain/Movie.java": {
+    "mtime": 1785246494.3490286,
+    "ast_hash": "3f89930fcb4cbe6432a1b794a08b7135",
+    "semantic_hash": "3f89930fcb4cbe6432a1b794a08b7135"
+  },
+  "src/main/java/com/mtbs/catalog/domain/Screen.java": {
+    "mtime": 1785246494.35003,
+    "ast_hash": "6456cf32acf1c353a85c54df0806b3ff",
+    "semantic_hash": "6456cf32acf1c353a85c54df0806b3ff"
+  },
+  "src/main/java/com/mtbs/catalog/domain/Seat.java": {
+    "mtime": 1785246494.35003,
+    "ast_hash": "f60fb81325a1797ef199503cd3810ef6",
+    "semantic_hash": "f60fb81325a1797ef199503cd3810ef6"
+  },
+  "src/main/java/com/mtbs/catalog/domain/SeatCategory.java": {
+    "mtime": 1785246494.351028,
+    "ast_hash": "67c0085a64abe11c12a8352bee193db9",
+    "semantic_hash": "67c0085a64abe11c12a8352bee193db9"
+  },
+  "src/main/java/com/mtbs/catalog/domain/Theater.java": {
+    "mtime": 1785246494.3520317,
+    "ast_hash": "701b2f5a243a707c1dd6bfb9c8419f57",
+    "semantic_hash": "701b2f5a243a707c1dd6bfb9c8419f57"
+  },
+  "src/main/java/com/mtbs/catalog/dto/CatalogDtos.java": {
+    "mtime": 1785246494.353029,
+    "ast_hash": "b81cdaee0a45fa35531f08cec4980b12",
+    "semantic_hash": "b81cdaee0a45fa35531f08cec4980b12"
+  },
+  "src/main/java/com/mtbs/common/config/AsyncConfig.java": {
+    "mtime": 1785246494.353029,
+    "ast_hash": "a1c2ed6bcab8a73cb1dcd2da68f39609",
+    "semantic_hash": "a1c2ed6bcab8a73cb1dcd2da68f39609"
+  },
+  "src/main/java/com/mtbs/common/config/OpenApiConfig.java": {
+    "mtime": 1785248399.8121724,
+    "ast_hash": "85b6775fff52e90b7a643ea9c883042e",
+    "semantic_hash": "85b6775fff52e90b7a643ea9c883042e"
+  },
+  "src/main/java/com/mtbs/common/config/PersistenceConfig.java": {
+    "mtime": 1785240266.5570402,
+    "ast_hash": "d9a2530a8eefa3acb700f4e8452001a7",
+    "semantic_hash": "d9a2530a8eefa3acb700f4e8452001a7"
+  },
+  "src/main/java/com/mtbs/common/config/SchedulingConfig.java": {
+    "mtime": 1785246494.3550284,
+    "ast_hash": "5bf3b8c40412225559c1a105f6194e72",
+    "semantic_hash": "5bf3b8c40412225559c1a105f6194e72"
+  },
+  "src/main/java/com/mtbs/common/config/SecurityConfig.java": {
+    "mtime": 1785248399.813183,
+    "ast_hash": "aa15121f47e23c1f1289125f21528a1d",
+    "semantic_hash": "aa15121f47e23c1f1289125f21528a1d"
+  },
+  "src/main/java/com/mtbs/common/domain/BaseEntity.java": {
+    "mtime": 1785240254.005458,
+    "ast_hash": "595f2567e266451df615314f09726d1b",
+    "semantic_hash": "595f2567e266451df615314f09726d1b"
+  },
+  "src/main/java/com/mtbs/common/error/ErrorResponse.java": {
+    "mtime": 1785240240.3111117,
+    "ast_hash": "f85390e9e8dd73637f03b2faf68be56a",
+    "semantic_hash": "f85390e9e8dd73637f03b2faf68be56a"
+  },
+  "src/main/java/com/mtbs/common/error/GlobalExceptionHandler.java": {
+    "mtime": 1785246494.3560293,
+    "ast_hash": "4eec8b1a959105343d0c13ce5bf0a3d2",
+    "semantic_hash": "4eec8b1a959105343d0c13ce5bf0a3d2"
+  },
+  "src/main/java/com/mtbs/common/error/ResourceNotFoundException.java": {
+    "mtime": 1785240236.6245422,
+    "ast_hash": "37897f0ff4150617eff95c9848cb498c",
+    "semantic_hash": "37897f0ff4150617eff95c9848cb498c"
+  },
+  "src/main/java/com/mtbs/common/seed/DataSeeder.java": {
+    "mtime": 1785246494.3570294,
+    "ast_hash": "9b54be560d2c8b33de381888a3bfb1fa",
+    "semantic_hash": "9b54be560d2c8b33de381888a3bfb1fa"
+  },
+  "src/main/java/com/mtbs/discount/AdminDiscountController.java": {
+    "mtime": 1785246494.35803,
+    "ast_hash": "297a593e0aa9ab7bb222a84fa383affe",
+    "semantic_hash": "297a593e0aa9ab7bb222a84fa383affe"
+  },
+  "src/main/java/com/mtbs/discount/DiscountCodeRepository.java": {
+    "mtime": 1785246494.35903,
+    "ast_hash": "5e82c7045968c0265b30cb371a4ef06a",
+    "semantic_hash": "5e82c7045968c0265b30cb371a4ef06a"
+  },
+  "src/main/java/com/mtbs/discount/DiscountNotApplicableException.java": {
+    "mtime": 1785246494.35903,
+    "ast_hash": "101f0c404713a6172eb05ec5dd150783",
+    "semantic_hash": "101f0c404713a6172eb05ec5dd150783"
+  },
+  "src/main/java/com/mtbs/discount/DiscountService.java": {
+    "mtime": 1785246494.36003,
+    "ast_hash": "08e0dd233b04796fe3c8c55cd8cf60b7",
+    "semantic_hash": "08e0dd233b04796fe3c8c55cd8cf60b7"
+  },
+  "src/main/java/com/mtbs/discount/domain/DiscountCode.java": {
+    "mtime": 1785246494.3620312,
+    "ast_hash": "2d79f580ecc415486bbc18502cd23671",
+    "semantic_hash": "2d79f580ecc415486bbc18502cd23671"
+  },
+  "src/main/java/com/mtbs/discount/domain/DiscountType.java": {
+    "mtime": 1785246494.3620312,
+    "ast_hash": "ea655d7b9dac0881b56d124f77c71c1c",
+    "semantic_hash": "ea655d7b9dac0881b56d124f77c71c1c"
+  },
+  "src/main/java/com/mtbs/discount/dto/DiscountDtos.java": {
+    "mtime": 1785246494.36403,
+    "ast_hash": "d5c82bf3a47cc583db4f0fbfcfea5536",
+    "semantic_hash": "d5c82bf3a47cc583db4f0fbfcfea5536"
+  },
+  "src/main/java/com/mtbs/notification/LoggingNotificationService.java": {
+    "mtime": 1785246494.3650296,
+    "ast_hash": "19b5534e97b3c06abfdc260877c259f7",
+    "semantic_hash": "19b5534e97b3c06abfdc260877c259f7"
+  },
+  "src/main/java/com/mtbs/notification/NotificationListener.java": {
+    "mtime": 1785246494.3650296,
+    "ast_hash": "d1faefe274e54029f32d4f5d990e0ad6",
+    "semantic_hash": "d1faefe274e54029f32d4f5d990e0ad6"
+  },
+  "src/main/java/com/mtbs/notification/NotificationRepository.java": {
+    "mtime": 1785246494.3660295,
+    "ast_hash": "4a21485c27cbb33e60a0f0b6224c3000",
+    "semantic_hash": "4a21485c27cbb33e60a0f0b6224c3000"
+  },
+  "src/main/java/com/mtbs/notification/NotificationService.java": {
+    "mtime": 1785246494.3660295,
+    "ast_hash": "47d4540db8cd0a0a42671a81e726b20c",
+    "semantic_hash": "47d4540db8cd0a0a42671a81e726b20c"
+  },
+  "src/main/java/com/mtbs/notification/ReminderScheduler.java": {
+    "mtime": 1785246494.3670304,
+    "ast_hash": "8a76e09e9760a85c2d5c1497577d5f85",
+    "semantic_hash": "8a76e09e9760a85c2d5c1497577d5f85"
+  },
+  "src/main/java/com/mtbs/notification/domain/Notification.java": {
+    "mtime": 1785246494.36803,
+    "ast_hash": "ff701a507f920739d8ef6d21f79a96ce",
+    "semantic_hash": "ff701a507f920739d8ef6d21f79a96ce"
+  },
+  "src/main/java/com/mtbs/notification/domain/NotificationType.java": {
+    "mtime": 1785246494.36903,
+    "ast_hash": "a8463b6f351f7188af6dfaecd537487b",
+    "semantic_hash": "a8463b6f351f7188af6dfaecd537487b"
+  },
+  "src/main/java/com/mtbs/payment/MockPaymentGateway.java": {
+    "mtime": 1785246494.36903,
+    "ast_hash": "d7e102b11a4e42da9daf190b6d0c219b",
+    "semantic_hash": "d7e102b11a4e42da9daf190b6d0c219b"
+  },
+  "src/main/java/com/mtbs/payment/PaymentGateway.java": {
+    "mtime": 1785246494.370031,
+    "ast_hash": "275c3928588d71443440038e6254c456",
+    "semantic_hash": "275c3928588d71443440038e6254c456"
+  },
+  "src/main/java/com/mtbs/payment/PaymentRepository.java": {
+    "mtime": 1785246494.3710322,
+    "ast_hash": "5e1d2df31724bfaddd4617dbcb6094b0",
+    "semantic_hash": "5e1d2df31724bfaddd4617dbcb6094b0"
+  },
+  "src/main/java/com/mtbs/payment/domain/Payment.java": {
+    "mtime": 1785246494.3720458,
+    "ast_hash": "b1bd9be5072677179bdfb718e684fe27",
+    "semantic_hash": "b1bd9be5072677179bdfb718e684fe27"
+  },
+  "src/main/java/com/mtbs/payment/domain/PaymentStatus.java": {
+    "mtime": 1785246494.3720458,
+    "ast_hash": "4dce6b56bcfb4d660b3e8ada38d57521",
+    "semantic_hash": "4dce6b56bcfb4d660b3e8ada38d57521"
+  },
+  "src/main/java/com/mtbs/refund/AdminRefundPolicyController.java": {
+    "mtime": 1785246494.373965,
+    "ast_hash": "63412393ab0b387a37a1353e12c96906",
+    "semantic_hash": "63412393ab0b387a37a1353e12c96906"
+  },
+  "src/main/java/com/mtbs/refund/RefundPolicyRepository.java": {
+    "mtime": 1785246494.3749733,
+    "ast_hash": "65beae9569659880f741791c680ef703",
+    "semantic_hash": "65beae9569659880f741791c680ef703"
+  },
+  "src/main/java/com/mtbs/refund/RefundPolicyResolver.java": {
+    "mtime": 1785246494.3749733,
+    "ast_hash": "4e392e7b99c483bdd24065c3dd379ce1",
+    "semantic_hash": "4e392e7b99c483bdd24065c3dd379ce1"
+  },
+  "src/main/java/com/mtbs/refund/RefundRepository.java": {
+    "mtime": 1785246494.375974,
+    "ast_hash": "b38c47f8abd12464989c253919c77c11",
+    "semantic_hash": "b38c47f8abd12464989c253919c77c11"
+  },
+  "src/main/java/com/mtbs/refund/domain/Refund.java": {
+    "mtime": 1785246494.376972,
+    "ast_hash": "29b20b3e17989e27ef0f245a83ba3489",
+    "semantic_hash": "29b20b3e17989e27ef0f245a83ba3489"
+  },
+  "src/main/java/com/mtbs/refund/domain/RefundPolicy.java": {
+    "mtime": 1785246494.3779743,
+    "ast_hash": "cc712b44501c09c460d01071ba41e735",
+    "semantic_hash": "cc712b44501c09c460d01071ba41e735"
+  },
+  "src/main/java/com/mtbs/refund/domain/RefundTier.java": {
+    "mtime": 1785246494.3789737,
+    "ast_hash": "fdeb11272a8098c4d76ae48ced9dc7fa",
+    "semantic_hash": "fdeb11272a8098c4d76ae48ced9dc7fa"
+  },
+  "src/main/java/com/mtbs/refund/dto/RefundPolicyDtos.java": {
+    "mtime": 1785246494.3809748,
+    "ast_hash": "f63f9da898f4a5de64c09de0321e66c2",
+    "semantic_hash": "f63f9da898f4a5de64c09de0321e66c2"
+  },
+  "src/main/java/com/mtbs/show/AdminShowController.java": {
+    "mtime": 1785246494.3819768,
+    "ast_hash": "b2cc9507c2e64704b8c0e892f10fa957",
+    "semantic_hash": "b2cc9507c2e64704b8c0e892f10fa957"
+  },
+  "src/main/java/com/mtbs/show/PricingCalculator.java": {
+    "mtime": 1785246494.3829746,
+    "ast_hash": "8a9c22cc25aec5bd35c4e3b5e5981fb1",
+    "semantic_hash": "8a9c22cc25aec5bd35c4e3b5e5981fb1"
+  },
+  "src/main/java/com/mtbs/show/ShowMapper.java": {
+    "mtime": 1785246494.3839762,
+    "ast_hash": "355b5f1a84a446466ad2a71bcbf379e6",
+    "semantic_hash": "355b5f1a84a446466ad2a71bcbf379e6"
+  },
+  "src/main/java/com/mtbs/show/ShowQueryController.java": {
+    "mtime": 1785246494.3848052,
+    "ast_hash": "53fcc681711ebdb7009870b628d593b3",
+    "semantic_hash": "53fcc681711ebdb7009870b628d593b3"
+  },
+  "src/main/java/com/mtbs/show/ShowRepository.java": {
+    "mtime": 1785246494.3859844,
+    "ast_hash": "e2c3a9dc086ff4eea4a67c2f535d141a",
+    "semantic_hash": "e2c3a9dc086ff4eea4a67c2f535d141a"
+  },
+  "src/main/java/com/mtbs/show/ShowSeatRepository.java": {
+    "mtime": 1785246494.3859844,
+    "ast_hash": "64b098768b691470ab3326bd9109abb7",
+    "semantic_hash": "64b098768b691470ab3326bd9109abb7"
+  },
+  "src/main/java/com/mtbs/show/ShowService.java": {
+    "mtime": 1785246494.386994,
+    "ast_hash": "7a24666164f6ca3ee05d84f0305331e7",
+    "semantic_hash": "7a24666164f6ca3ee05d84f0305331e7"
+  },
+  "src/main/java/com/mtbs/show/domain/Show.java": {
+    "mtime": 1785246494.3889916,
+    "ast_hash": "31575eea0a78b404c3a54503564c7547",
+    "semantic_hash": "31575eea0a78b404c3a54503564c7547"
+  },
+  "src/main/java/com/mtbs/show/domain/ShowSeat.java": {
+    "mtime": 1785246494.39026,
+    "ast_hash": "f7dbb4658b3b7d855c13ed48fb48e825",
+    "semantic_hash": "f7dbb4658b3b7d855c13ed48fb48e825"
+  },
+  "src/main/java/com/mtbs/show/domain/ShowSeatStatus.java": {
+    "mtime": 1785246494.39026,
+    "ast_hash": "93d5dd0f6086193adadfa12441e196bc",
+    "semantic_hash": "93d5dd0f6086193adadfa12441e196bc"
+  },
+  "src/main/java/com/mtbs/show/dto/ShowDtos.java": {
+    "mtime": 1785246494.3912687,
+    "ast_hash": "f231bae7092b62be331077f328be7af4",
+    "semantic_hash": "f231bae7092b62be331077f328be7af4"
+  },
+  "src/test/java/com/mtbs/MovieTicketBookingSystemApplicationTests.java": {
+    "mtime": 1785234534.7019978,
+    "ast_hash": "9d7e24cde5e71e9728a7122b43dd4145",
+    "semantic_hash": "9d7e24cde5e71e9728a7122b43dd4145"
+  },
+  "src/test/java/com/mtbs/auth/AuthFlowTest.java": {
+    "mtime": 1785246494.3932686,
+    "ast_hash": "426b55917688e75543fceb6477a3b16f",
+    "semantic_hash": "426b55917688e75543fceb6477a3b16f"
+  },
+  "src/test/java/com/mtbs/booking/CancellationTest.java": {
+    "mtime": 1785246494.3942676,
+    "ast_hash": "a579cb1bcc73f9783e808a90704dbb6b",
+    "semantic_hash": "a579cb1bcc73f9783e808a90704dbb6b"
+  },
+  "src/test/java/com/mtbs/booking/HoldConcurrencyTest.java": {
+    "mtime": 1785300206.9297175,
+    "ast_hash": "a453305c03312c45c8a51643bf21ccee",
+    "semantic_hash": ""
+  },
+  "src/test/java/com/mtbs/booking/HoldFlowTest.java": {
+    "mtime": 1785300209.6659293,
+    "ast_hash": "05e2d85b6af6e8b6c7051f0f1f4f9c61",
+    "semantic_hash": ""
+  },
+  "src/test/java/com/mtbs/booking/PaymentFlowTest.java": {
+    "mtime": 1785246494.3972683,
+    "ast_hash": "7f4f0538451e48b1a42aca76ac3c8281",
+    "semantic_hash": "7f4f0538451e48b1a42aca76ac3c8281"
+  },
+  "src/test/java/com/mtbs/catalog/AdminCatalogTest.java": {
+    "mtime": 1785246494.398268,
+    "ast_hash": "2b3105fad27ee534cbd54bdf703c3b0e",
+    "semantic_hash": "2b3105fad27ee534cbd54bdf703c3b0e"
+  },
+  "src/test/java/com/mtbs/common/error/ErrorContractTest.java": {
+    "mtime": 1785246494.399268,
+    "ast_hash": "2213e6afc7ca38ba76201f66b10e2a0e",
+    "semantic_hash": "2213e6afc7ca38ba76201f66b10e2a0e"
+  },
+  "src/test/java/com/mtbs/common/seed/DataSeederSmokeTest.java": {
+    "mtime": 1785246494.400268,
+    "ast_hash": "030133850981973e2d79bfe7e5d65624",
+    "semantic_hash": "030133850981973e2d79bfe7e5d65624"
+  },
+  "src/test/java/com/mtbs/discount/DiscountBookingTest.java": {
+    "mtime": 1785246494.401273,
+    "ast_hash": "a0166f3f72cf848373a973be1ff3ca4d",
+    "semantic_hash": "a0166f3f72cf848373a973be1ff3ca4d"
+  },
+  "src/test/java/com/mtbs/discount/DiscountCalculationTest.java": {
+    "mtime": 1785246494.4022677,
+    "ast_hash": "0fc54b92d470c6f04256cf5464c2e746",
+    "semantic_hash": "0fc54b92d470c6f04256cf5464c2e746"
+  },
+  "src/test/java/com/mtbs/notification/NotificationDeliveryTest.java": {
+    "mtime": 1785300200.7930112,
+    "ast_hash": "13f8bf3daa56871ade244630f5f3db24",
+    "semantic_hash": ""
+  },
+  "src/test/java/com/mtbs/notification/ReminderSchedulerTest.java": {
+    "mtime": 1785300195.971626,
+    "ast_hash": "4af02c1a406318dff7fea0cffd28c7d0",
+    "semantic_hash": ""
+  },
+  "src/test/java/com/mtbs/show/PricingCalculatorTest.java": {
+    "mtime": 1785246494.405268,
+    "ast_hash": "81f9a30dffe373e90db8baa2069658c7",
+    "semantic_hash": "81f9a30dffe373e90db8baa2069658c7"
+  },
+  "src/test/java/com/mtbs/show/ShowBrowseTest.java": {
+    "mtime": 1785246494.4062688,
+    "ast_hash": "8a80d83940f4f2285f8820eb0c5a1895",
+    "semantic_hash": "8a80d83940f4f2285f8820eb0c5a1895"
+  },
+  "src/main/java/com/mtbs/booking/BookingService.java": {
+    "mtime": 1785300156.1405466,
+    "ast_hash": "1b15a4c682903d8995d26fd8f6a253ca",
+    "semantic_hash": ""
+  },
+  "src/main/java/com/mtbs/payment/PaymentService.java": {
+    "mtime": 1785300116.6293771,
+    "ast_hash": "46c86029bba6c7f1f6faf64bdd9abb30",
+    "semantic_hash": ""
+  },
+  ".claude/CLAUDE.md": {
+    "mtime": 1785248906.5472214,
+    "ast_hash": "c232166e6492ba1ed955030b16979b05",
+    "semantic_hash": ""
+  },
+  ".claude/skills/ask-matt/SKILL.md": {
+    "mtime": 1785234340.506965,
+    "ast_hash": "76b8c308b00ec01d9be853a842e9521d",
+    "semantic_hash": ""
+  },
+  ".claude/skills/ask-matt/agents/openai.yaml": {
+    "mtime": 1785234340.5169568,
+    "ast_hash": "0914ec87f5487957cadc06ea8c328e1a",
+    "semantic_hash": ""
+  },
+  ".claude/skills/code-review/SKILL.md": {
+    "mtime": 1785234340.0848646,
+    "ast_hash": "80f8326ad07914b168a788c8257d9206",
+    "semantic_hash": ""
+  },
+  ".claude/skills/code-review/agents/openai.yaml": {
+    "mtime": 1785234340.0838845,
+    "ast_hash": "727988accc02936891b13cd4845000de",
+    "semantic_hash": ""
+  },
+  ".claude/skills/codebase-design/DEEPENING.md": {
+    "mtime": 1785234340.2951224,
+    "ast_hash": "0622bf734fe6ba6958f26c57ead7557d",
+    "semantic_hash": ""
+  },
+  ".claude/skills/codebase-design/DESIGN-IT-TWICE.md": {
+    "mtime": 1785234340.3071227,
+    "ast_hash": "eb3285023df906edc324cf0aee04d972",
+    "semantic_hash": ""
+  },
+  ".claude/skills/codebase-design/SKILL.md": {
+    "mtime": 1785234340.3181365,
+    "ast_hash": "1a695eb7507563b370230939df4a7ad7",
+    "semantic_hash": ""
+  },
+  ".claude/skills/codebase-design/agents/openai.yaml": {
+    "mtime": 1785234340.3171346,
+    "ast_hash": "e3ef79463bafe87b6c5d93099f6ec8dc",
+    "semantic_hash": ""
+  },
+  ".claude/skills/diagnosing-bugs/SKILL.md": {
+    "mtime": 1785234340.401184,
+    "ast_hash": "31ac9bb8e089c2844d8b6a45fd2187aa",
+    "semantic_hash": ""
+  },
+  ".claude/skills/diagnosing-bugs/agents/openai.yaml": {
+    "mtime": 1785234340.4101918,
+    "ast_hash": "381dc5d9e4529e13f1a8fb0fb6e462e0",
+    "semantic_hash": ""
+  },
+  ".claude/skills/domain-modeling/ADR-FORMAT.md": {
+    "mtime": 1785234340.1906807,
+    "ast_hash": "3c49999a3715a7b65fe8521d4bf9e188",
+    "semantic_hash": ""
+  },
+  ".claude/skills/domain-modeling/CONTEXT-FORMAT.md": {
+    "mtime": 1785234340.2036788,
+    "ast_hash": "469f1fb6e9e7e94ecb41dc64b6d09032",
+    "semantic_hash": ""
+  },
+  ".claude/skills/domain-modeling/SKILL.md": {
+    "mtime": 1785234340.1916864,
+    "ast_hash": "a08da26cbbf91264f078a48c680f2c71",
+    "semantic_hash": ""
+  },
+  ".claude/skills/domain-modeling/agents/openai.yaml": {
+    "mtime": 1785234340.1791503,
+    "ast_hash": "2854fbe73ae3d34431029391c8319949",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/SKILL.md": {
+    "mtime": 1785248906.546221,
+    "ast_hash": "62aa0f6529a7784d9542c575a87d7077",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/add-watch.md": {
+    "mtime": 1785248897.9335275,
+    "ast_hash": "d59d027fe449f06aa03905a01184e779",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/exports.md": {
+    "mtime": 1785248897.9345357,
+    "ast_hash": "9da2a2152e60a22f07f05fed5158f287",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/extraction-spec.md": {
+    "mtime": 1785248897.935544,
+    "ast_hash": "42fef56a01698118f7fd722acdadea34",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/github-and-merge.md": {
+    "mtime": 1785248897.9365296,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/hooks.md": {
+    "mtime": 1785248897.9375298,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/query.md": {
+    "mtime": 1785248897.9395308,
+    "ast_hash": "3c46f8ad006874260614ed8657d02307",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/transcribe.md": {
+    "mtime": 1785248897.9405277,
+    "ast_hash": "67b6a5fa6c0974e18f60db9f8932fbd8",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/update.md": {
+    "mtime": 1785248897.9415307,
+    "ast_hash": "9378bd03d56baaf78bd738ab3848f142",
+    "semantic_hash": ""
+  },
+  ".claude/skills/grill-me/SKILL.md": {
+    "mtime": 1785234339.3116229,
+    "ast_hash": "6e8d4355ba975fd0c82557ac78170737",
+    "semantic_hash": ""
+  },
+  ".claude/skills/grill-me/agents/openai.yaml": {
+    "mtime": 1785234339.3236475,
+    "ast_hash": "4f8d07281108635f083a7984848d404b",
+    "semantic_hash": ""
+  },
+  ".claude/skills/grilling/SKILL.md": {
+    "mtime": 1785234339.405765,
+    "ast_hash": "5c702495e64047b8baf6bb1259ad8716",
+    "semantic_hash": ""
+  },
+  ".claude/skills/grilling/agents/openai.yaml": {
+    "mtime": 1785234339.4167902,
+    "ast_hash": "e1cba6855d674b574087af9e4e519bec",
+    "semantic_hash": ""
+  },
+  ".claude/skills/implement/SKILL.md": {
+    "mtime": 1785234339.995623,
+    "ast_hash": "5c059c827c39fa7590b41d06d532ce2a",
+    "semantic_hash": ""
+  },
+  ".claude/skills/implement/agents/openai.yaml": {
+    "mtime": 1785234339.994624,
+    "ast_hash": "8b1644d5678a17f33306f98a7c236d20",
+    "semantic_hash": ""
+  },
+  ".claude/skills/setup-matt-pocock-skills/SKILL.md": {
+    "mtime": 1785234339.7438898,
+    "ast_hash": "9b89b6ea19b6fc6b0c6d1dc8c77a4d07",
+    "semantic_hash": ""
+  },
+  ".claude/skills/setup-matt-pocock-skills/agents/openai.yaml": {
+    "mtime": 1785234339.7658904,
+    "ast_hash": "bbbf8a2456c84c476a541609cf1fc0a6",
+    "semantic_hash": ""
+  },
+  ".claude/skills/setup-matt-pocock-skills/domain.md": {
+    "mtime": 1785234339.7548895,
+    "ast_hash": "0c0972b77c4edaa4fbe03d562f04e8fb",
+    "semantic_hash": ""
+  },
+  ".claude/skills/setup-matt-pocock-skills/issue-tracker-github.md": {
+    "mtime": 1785234339.7428913,
+    "ast_hash": "a1ccc570564b4c0dd70e7be8ee0ef27f",
+    "semantic_hash": ""
+  },
+  ".claude/skills/setup-matt-pocock-skills/issue-tracker-gitlab.md": {
+    "mtime": 1785234339.7033224,
+    "ast_hash": "16df8831ceec7385160b99fbf23a99dd",
+    "semantic_hash": ""
+  },
+  ".claude/skills/setup-matt-pocock-skills/issue-tracker-local.md": {
+    "mtime": 1785234339.7148755,
+    "ast_hash": "eef47ffded51b0fda26bb3c9586968d0",
+    "semantic_hash": ""
+  },
+  ".claude/skills/setup-matt-pocock-skills/triage-labels.md": {
+    "mtime": 1785234339.7258933,
+    "ast_hash": "85409347dbf487c8a25c9dac59708b83",
+    "semantic_hash": ""
+  },
+  ".claude/skills/tdd/SKILL.md": {
+    "mtime": 1785234339.847445,
+    "ast_hash": "93b43a0c304aaa61d3bdf109435ff756",
+    "semantic_hash": ""
+  },
+  ".claude/skills/tdd/agents/openai.yaml": {
+    "mtime": 1785234339.8574536,
+    "ast_hash": "59675eba19fbb5a677a621278f5ef618",
+    "semantic_hash": ""
+  },
+  ".claude/skills/tdd/mocking.md": {
+    "mtime": 1785234339.899584,
+    "ast_hash": "d5bba1ea1f387c4809b7dc7c4e75c862",
+    "semantic_hash": ""
+  },
+  ".claude/skills/tdd/tests.md": {
+    "mtime": 1785234339.8790584,
+    "ast_hash": "89c7c4b26e8ebfc0b7699dbe96b433e5",
+    "semantic_hash": ""
+  },
+  ".claude/skills/to-spec/SKILL.md": {
+    "mtime": 1785234339.4986782,
+    "ast_hash": "c7e23e4b3675e22060cc5a15a452a599",
+    "semantic_hash": ""
+  },
+  ".claude/skills/to-spec/agents/openai.yaml": {
+    "mtime": 1785234339.5096848,
+    "ast_hash": "303abe92d1e7c947d1d36affacf18406",
+    "semantic_hash": ""
+  },
+  ".claude/skills/to-tickets/SKILL.md": {
+    "mtime": 1785234339.589625,
+    "ast_hash": "51eae95881cff98de35ec714e4097954",
+    "semantic_hash": ""
+  },
+  ".claude/skills/to-tickets/agents/openai.yaml": {
+    "mtime": 1785234339.5996184,
+    "ast_hash": "7c9fd2d5d1572711319d6aa0c7ca2903",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/01-foundation-error-contract.md": {
+    "mtime": 1785240352.8006535,
+    "ast_hash": "56fffd76c2f36bc0b358c20738a02a17",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/02-auth-rbac.md": {
+    "mtime": 1785246494.3040376,
+    "ast_hash": "694a035fc12b42bb83a4feedbab2e055",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/03-admin-catalog.md": {
+    "mtime": 1785246494.3050313,
+    "ast_hash": "607aced5c3292a122e53a47089eb1230",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/04-show-scheduling-pricing-browse.md": {
+    "mtime": 1785246494.3060389,
+    "ast_hash": "b9faa7ed8f02da592ff67db3f624321e",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/05-seat-holds-concurrency-expiry.md": {
+    "mtime": 1785246494.3080318,
+    "ast_hash": "077a4480574cb019733d9f052903802b",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/06-payment-confirm-booking.md": {
+    "mtime": 1785246494.309034,
+    "ast_hash": "5cc882346a911b046e6bb8783619b176",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/07-discount-codes.md": {
+    "mtime": 1785246494.3100357,
+    "ast_hash": "13b459ae876d7c8eafeafa560b2328ec",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/08-cancellation-refunds.md": {
+    "mtime": 1785246494.3110468,
+    "ast_hash": "0bdacd029b17e7576e1cba98557aa0bb",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/09-async-notifications.md": {
+    "mtime": 1785246494.3120434,
+    "ast_hash": "a96d1c4cb7c67b07ea25b1539118d6ed",
+    "semantic_hash": ""
+  },
+  ".scratch/movie-ticket-booking-system/issues/10-readme-seed-h2-caveat.md": {
+    "mtime": 1785246494.313043,
+    "ast_hash": "14c262751e05e28709135ee90e2d6a31",
+    "semantic_hash": ""
+  },
+  ".scratch/specs/movie-ticket-booking-system.md": {
+    "mtime": 1785237869.6027892,
+    "ast_hash": "2b18928596d346bfae55033094a575f1",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1785248906.549221,
+    "ast_hash": "85ca630a95a3588d2d43d3ffed230654",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1785248399.8108504,
+    "ast_hash": "ff711e5459914178710ded2a8b9d106b",
+    "semantic_hash": ""
+  },
+  "src/main/resources/application.yml": {
+    "mtime": 1785246494.3922677,
+    "ast_hash": "4e1503ee21312bc1a1cd7f976725ad2f",
+    "semantic_hash": ""
+  },
+  "docs/Movie Ticket Booking System.pdf": {
+    "mtime": 1785232981.2239573,
+    "ast_hash": "365be324d10e6bf7c214889f8cbbe94e",
+    "semantic_hash": ""
+  }
+}
