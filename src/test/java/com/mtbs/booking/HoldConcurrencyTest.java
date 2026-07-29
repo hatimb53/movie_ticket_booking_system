@@ -43,7 +43,7 @@ class HoldConcurrencyTest {
   @Autowired
   private ShowService showService;
   @Autowired
-  private HoldService holdService;
+  private BookingService bookingService;
   @Autowired
   private ShowSeatRepository showSeatRepository;
   @Autowired
@@ -85,7 +85,7 @@ class HoldConcurrencyTest {
         ready.countDown();
         try {
           go.await();
-          holdService.hold("racer@mtbs.com", show.id(), List.of(seatId));
+          bookingService.hold("racer@mtbs.com", show.id(), List.of(seatId));
           wins.incrementAndGet();
         } catch (SeatUnavailableException e) {
           rejections.incrementAndGet();

@@ -3,8 +3,7 @@ package com.mtbs.notification;
 import com.mtbs.auth.UserRepository;
 import com.mtbs.auth.domain.Role;
 import com.mtbs.auth.domain.User;
-import com.mtbs.booking.HoldService;
-import com.mtbs.booking.PaymentService;
+import com.mtbs.booking.BookingService;
 import com.mtbs.booking.dto.BookingDtos.BookingResponse;
 import com.mtbs.catalog.CatalogService;
 import com.mtbs.catalog.dto.CatalogDtos.CreateCityRequest;
@@ -37,9 +36,7 @@ class ReminderSchedulerTest {
   @Autowired
   private ShowService showService;
   @Autowired
-  private HoldService holdService;
-  @Autowired
-  private PaymentService paymentService;
+  private BookingService bookingService;
   @Autowired
   private ShowSeatRepository showSeatRepository;
   @Autowired
@@ -65,8 +62,8 @@ class ReminderSchedulerTest {
     long seatId = showSeatRepository.findByShowIdOrderByIdAsc(show.id()).get(0).getId();
 
     userRepository.save(new User("rem@mtbs.com", passwordEncoder.encode("pw-rem-1"), Role.CUSTOMER));
-    BookingResponse held = holdService.hold("rem@mtbs.com", show.id(), List.of(seatId));
-    paymentService.pay("rem@mtbs.com", held.id(), "visa");
+    BookingResponse held = bookingService.hold("rem@mtbs.com", show.id(), List.of(seatId));
+    bookingService.pay("rem@mtbs.com", held.id(), "visa");
 
     reminderScheduler.sendReminders();
     reminderScheduler.sendReminders(); // idempotent

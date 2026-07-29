@@ -54,10 +54,10 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
 1. **Auth** — `POST /auth/register` (creates a CUSTOMER), `POST /auth/login` → JWT. Send it as
    `Authorization: Bearer <token>`.
 2. **Browse** — `GET /shows?city=&movieId=&date=`, `GET /shows/{id}/seats` (live availability + price).
-3. **Hold** — `POST /shows/{id}/holds` with the chosen `showSeatIds` (+ optional `discountCode`) →
-   a `PENDING_PAYMENT` booking; seats are held for a configurable TTL (default 5 min).
+3. **Hold** — `POST /bookings/hold` with `showId`, the chosen `showSeatIds` (+ optional
+   `discountCode`) → a `PENDING_PAYMENT` booking; seats are held for a configurable TTL (default 5 min).
 4. **Pay** — `POST /bookings/{id}/pay` → `CONFIRMED` (seats BOOKED) or `PAYMENT_FAILED` (402).
-5. **History / cancel** — `GET /bookings/me`, `POST /bookings/{id}/cancel` (time-tiered refund).
+5. **History / cancel** — `GET /bookings`, `POST /bookings/{id}/cancel` (time-tiered refund).
 6. **Admin** — `/admin/**` (cities, theaters, screens + seat layout, movies, shows, discounts,
    refund policies), all `ADMIN`-only.
 

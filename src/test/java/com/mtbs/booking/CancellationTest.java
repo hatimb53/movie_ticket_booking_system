@@ -149,10 +149,11 @@ class CancellationTest {
 
   private org.springframework.test.web.servlet.ResultActions hold(long seatId, String code)
       throws Exception {
+    long showId = showBySeat(seatId);
     String body = code == null
-        ? "{\"showSeatIds\":[" + seatId + "]}"
-        : "{\"showSeatIds\":[" + seatId + "],\"discountCode\":\"" + code + "\"}";
-    return mockMvc.perform(post("/shows/" + showBySeat(seatId) + "/holds")
+        ? "{\"showId\":" + showId + ",\"showSeatIds\":[" + seatId + "]}"
+        : "{\"showId\":" + showId + ",\"showSeatIds\":[" + seatId + "],\"discountCode\":\"" + code + "\"}";
+    return mockMvc.perform(post("/bookings/hold")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content(body))
