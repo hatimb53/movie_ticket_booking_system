@@ -3,8 +3,7 @@ package com.mtbs.notification;
 import com.mtbs.auth.UserRepository;
 import com.mtbs.auth.domain.Role;
 import com.mtbs.auth.domain.User;
-import com.mtbs.booking.HoldService;
-import com.mtbs.booking.PaymentService;
+import com.mtbs.booking.BookingService;
 import com.mtbs.booking.dto.BookingDtos.BookingResponse;
 import com.mtbs.catalog.CatalogService;
 import com.mtbs.catalog.dto.CatalogDtos.CreateCityRequest;
@@ -41,9 +40,7 @@ class NotificationDeliveryTest {
   @Autowired
   private ShowService showService;
   @Autowired
-  private HoldService holdService;
-  @Autowired
-  private PaymentService paymentService;
+  private BookingService bookingService;
   @Autowired
   private ShowSeatRepository showSeatRepository;
   @Autowired
@@ -68,9 +65,9 @@ class NotificationDeliveryTest {
 
     userRepository.save(
         new User("notif@mtbs.com", passwordEncoder.encode("pw-notif-1"), Role.CUSTOMER));
-    BookingResponse held = holdService.hold("notif@mtbs.com", show.id(), List.of(seatId));
+    BookingResponse held = bookingService.hold("notif@mtbs.com", show.id(), List.of(seatId));
 
-    BookingResponse paid = paymentService.pay("notif@mtbs.com", held.id(), "visa");
+    BookingResponse paid = bookingService.pay("notif@mtbs.com", held.id(), "visa");
     assertThat(paid.status()).isEqualTo("CONFIRMED"); // booking confirmed synchronously
 
     // Notification arrives asynchronously, after the commit.

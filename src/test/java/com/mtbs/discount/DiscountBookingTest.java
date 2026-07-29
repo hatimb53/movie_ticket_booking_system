@@ -81,10 +81,10 @@ class DiscountBookingTest {
             + "\"usageLimit\":5,\"active\":true}");
 
     // Hold with the code: 400 - 10% = 360.
-    long bookingId = id(mockMvc.perform(post("/shows/" + showId + "/holds")
+    long bookingId = id(mockMvc.perform(post("/bookings/hold")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"SAVE10\"}"))
+            .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"SAVE10\"}"))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.subtotal", is(400.00)))
         .andExpect(jsonPath("$.discountAmount", is(40.00)))
@@ -113,19 +113,19 @@ class DiscountBookingTest {
             + "\"validFrom\":\"2026-01-01T00:00:00\",\"validUntil\":\"2027-01-01T00:00:00\","
             + "\"active\":true}");
 
-    mockMvc.perform(post("/shows/" + showId + "/holds")
+    mockMvc.perform(post("/bookings/hold")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"BIG\"}"))
+            .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"BIG\"}"))
         .andExpect(status().isUnprocessableEntity());
   }
 
   @Test
   void unknownCodeIsRejected() throws Exception {
-    mockMvc.perform(post("/shows/" + showId + "/holds")
+    mockMvc.perform(post("/bookings/hold")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"NOPE\"}"))
+            .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"NOPE\"}"))
         .andExpect(status().isUnprocessableEntity());
   }
 

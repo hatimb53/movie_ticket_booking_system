@@ -84,7 +84,7 @@ class PaymentFlowTest {
     assertThat(showSeatRepository.findById(seatId).orElseThrow().getStatus())
         .isEqualTo(ShowSeatStatus.BOOKED);
 
-    mockMvc.perform(get("/bookings/me").header("Authorization", "Bearer " + customerToken))
+    mockMvc.perform(get("/bookings").header("Authorization", "Bearer " + customerToken))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[*].status", hasItem("CONFIRMED")));
   }
@@ -125,10 +125,10 @@ class PaymentFlowTest {
   // --- helpers ---
 
   private ResultActions hold(String token, long sId) throws Exception {
-    return mockMvc.perform(post("/shows/" + showId + "/holds")
+    return mockMvc.perform(post("/bookings/hold")
         .header("Authorization", "Bearer " + token)
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"showSeatIds\":[" + sId + "]}"));
+        .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + sId + "]}"));
   }
 
   private org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder pay(

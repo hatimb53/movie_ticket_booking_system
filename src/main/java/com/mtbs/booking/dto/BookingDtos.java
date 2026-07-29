@@ -1,6 +1,7 @@
 package com.mtbs.booking.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,7 +11,8 @@ public final class BookingDtos {
   private BookingDtos() {
   }
 
-  public record HoldRequest(@NotEmpty List<Long> showSeatIds, String discountCode) {
+  public record HoldRequest(
+      @NotNull Long showId, @NotEmpty List<Long> showSeatIds, String discountCode) {
   }
 
   public record BookedSeat(Long showSeatId, String label, BigDecimal price) {

@@ -49,7 +49,7 @@ class HoldFlowTest {
   @Autowired
   private ShowSeatRepository showSeatRepository;
   @Autowired
-  private HoldSweeper holdSweeper;
+  private BookingService bookingService;
 
   private String adminToken;
   private String customerToken;
@@ -83,10 +83,10 @@ class HoldFlowTest {
 
   @Test
   void holdMarksSeatsHeldAndReturnsPendingBooking() throws Exception {
-    mockMvc.perform(post("/shows/" + showId + "/holds")
+    mockMvc.perform(post("/bookings/hold")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"showSeatIds\":[" + firstSeatId + "]}"))
+            .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + firstSeatId + "]}"))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.status", is("PENDING_PAYMENT")))
         .andExpect(jsonPath("$.total", is(200.00)))
@@ -131,7 +131,7 @@ class HoldFlowTest {
     seat.hold(Instant.now().minusSeconds(60));
     showSeatRepository.saveAndFlush(seat);
 
-    holdSweeper.releaseExpiredHolds();
+    bookingService.releaseExpiredHolds();
 
     assertThat(showSeatRepository.findById(firstSeatId).orElseThrow().getStatus())
         .isEqualTo(ShowSeatStatus.AVAILABLE);
@@ -141,10 +141,10 @@ class HoldFlowTest {
 
   private org.springframework.test.web.servlet.ResultActions hold(String token, long seatId)
       throws Exception {
-    return mockMvc.perform(post("/shows/" + showId + "/holds")
+    return mockMvc.perform(post("/bookings/hold")
         .header("Authorization", "Bearer " + token)
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"showSeatIds\":[" + seatId + "]}"));
+        .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + seatId + "]}"));
   }
 
   private MvcResult adminPost(String path, String body) throws Exception {
