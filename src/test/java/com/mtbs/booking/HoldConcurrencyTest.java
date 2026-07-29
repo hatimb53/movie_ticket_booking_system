@@ -23,6 +23,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,9 +36,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  * exactly one hold succeeds and every other attempt is cleanly rejected — the seat is never
  * double-allocated. Runs at the service seam so real threads race real committed transactions
  * (MockMvc's single-request model can't express this).
+ *
+ * <p>Logs each thread's outcome at INFO so the race is visible on the console (demo-friendly),
+ * not just asserted silently.
  */
 @SpringBootTest
 class HoldConcurrencyTest {
+
+  private static final Logger log = LoggerFactory.getLogger(HoldConcurrencyTest.class);
 
   @Autowired
   private CatalogService catalogService;
@@ -67,6 +74,8 @@ class HoldConcurrencyTest {
         new BigDecimal("200"), new BigDecimal("400")));
 
     Long seatId = showSeatRepository.findByShowIdOrderByIdAsc(show.id()).get(0).getId();
+    log.info("=== Concurrency race starting: 8 threads holding show={} seat={} simultaneously ===",
+        show.id(), seatId);
 
     userRepository.save(
         new User("racer@mtbs.com", passwordEncoder.encode("pw-racer-1"), Role.CUSTOMER));
@@ -81,24 +90,32 @@ class HoldConcurrencyTest {
     AtomicInteger unexpected = new AtomicInteger();
 
     for (int i = 0; i < threads; i++) {
+      int threadNum = i;
       pool.submit(() -> {
         ready.countDown();
         try {
           go.await();
           bookingService.hold("racer@mtbs.com", show.id(), List.of(seatId));
           wins.incrementAndGet();
+          log.info("[thread-{}] WON the seat — hold created", threadNum);
         } catch (SeatUnavailableException e) {
           rejections.incrementAndGet();
+          log.info("[thread-{}] REJECTED — {}", threadNum, e.getMessage());
         } catch (Exception e) {
           unexpected.incrementAndGet();
+          log.warn("[thread-{}] UNEXPECTED failure — {}", threadNum, e.toString());
         }
         return null;
       });
     }
     ready.await();
+    log.info("--- all {} threads ready, releasing latch: race starts now ---", threads);
     go.countDown();
     pool.shutdown();
     assertThat(pool.awaitTermination(30, TimeUnit.SECONDS)).isTrue();
+
+    log.info("=== Race finished: {} won, {} rejected, {} unexpected (of {} threads) ===",
+        wins.get(), rejections.get(), unexpected.get(), threads);
 
     // --- assert: exactly one winner, no double-allocation ---
     assertThat(wins.get()).isEqualTo(1);
@@ -108,5 +125,7 @@ class HoldConcurrencyTest {
     ShowSeat seat = showSeatRepository.findById(seatId).orElseThrow();
     assertThat(seat.getStatus()).isEqualTo(ShowSeatStatus.HELD);
     assertThat(bookingRepository.findByOwnerEmailOrderByIdDesc("racer@mtbs.com")).hasSize(1);
+    log.info("=== Verified: seat {} is HELD, exactly one Booking row exists for racer@mtbs.com ===",
+        seatId);
   }
 }
