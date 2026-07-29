@@ -57,6 +57,12 @@ public class GlobalExceptionHandler {
     return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
   }
 
+  @ExceptionHandler(com.mtbs.show.ShowOverlapException.class)
+  public ResponseEntity<ErrorResponse> handleShowOverlap(
+      com.mtbs.show.ShowOverlapException ex, HttpServletRequest request) {
+    return build(HttpStatus.CONFLICT, ex.getMessage(), request, null);
+  }
+
   @ExceptionHandler(com.mtbs.discount.DiscountNotApplicableException.class)
   public ResponseEntity<ErrorResponse> handleDiscountNotApplicable(
       com.mtbs.discount.DiscountNotApplicableException ex, HttpServletRequest request) {
