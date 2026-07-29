@@ -153,7 +153,7 @@ class CancellationTest {
     String body = code == null
         ? "{\"showId\":" + showId + ",\"showSeatIds\":[" + seatId + "]}"
         : "{\"showId\":" + showId + ",\"showSeatIds\":[" + seatId + "],\"discountCode\":\"" + code + "\"}";
-    return mockMvc.perform(post("/bookings/hold")
+    return mockMvc.perform(post("/bookings")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content(body))

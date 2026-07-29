@@ -83,7 +83,7 @@ class HoldFlowTest {
 
   @Test
   void holdMarksSeatsHeldAndReturnsPendingBooking() throws Exception {
-    mockMvc.perform(post("/bookings/hold")
+    mockMvc.perform(post("/bookings")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + firstSeatId + "]}"))
@@ -141,7 +141,7 @@ class HoldFlowTest {
 
   private org.springframework.test.web.servlet.ResultActions hold(String token, long seatId)
       throws Exception {
-    return mockMvc.perform(post("/bookings/hold")
+    return mockMvc.perform(post("/bookings")
         .header("Authorization", "Bearer " + token)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + seatId + "]}"));

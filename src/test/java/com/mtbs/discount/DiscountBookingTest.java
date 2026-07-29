@@ -81,7 +81,7 @@ class DiscountBookingTest {
             + "\"usageLimit\":5,\"active\":true}");
 
     // Hold with the code: 400 - 10% = 360.
-    long bookingId = id(mockMvc.perform(post("/bookings/hold")
+    long bookingId = id(mockMvc.perform(post("/bookings")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"SAVE10\"}"))
@@ -113,7 +113,7 @@ class DiscountBookingTest {
             + "\"validFrom\":\"2026-01-01T00:00:00\",\"validUntil\":\"2027-01-01T00:00:00\","
             + "\"active\":true}");
 
-    mockMvc.perform(post("/bookings/hold")
+    mockMvc.perform(post("/bookings")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"BIG\"}"))
@@ -122,7 +122,7 @@ class DiscountBookingTest {
 
   @Test
   void unknownCodeIsRejected() throws Exception {
-    mockMvc.perform(post("/bookings/hold")
+    mockMvc.perform(post("/bookings")
             .header("Authorization", "Bearer " + customerToken)
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"showId\":" + showId + ",\"showSeatIds\":[" + premiumSeatId + "],\"discountCode\":\"NOPE\"}"))

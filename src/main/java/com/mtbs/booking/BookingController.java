@@ -35,7 +35,7 @@ public class BookingController {
     this.bookingService = bookingService;
   }
 
-  @PostMapping("/hold")
+  @PostMapping
   public ResponseEntity<BookingResponse> hold(
       @Valid @RequestBody HoldRequest request, Principal principal) {
     BookingResponse response = bookingService.hold(
