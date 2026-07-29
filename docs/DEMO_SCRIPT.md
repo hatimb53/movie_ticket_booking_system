@@ -11,8 +11,8 @@ are a budget, not a script to read verbatim.
 
 **Say:**
 - This is a Movie Ticket Booking System REST API: `City → Theater → Screen → Show`, with seat-level
-  booking. The brief was intentionally open-ended (SDE-2 take-home, "you own the scoping
-  decisions") — so a meaningful part of the work was *deciding* scope, not just building.
+  booking. The brief was intentionally open-ended ("you own the scoping decisions") — so a
+  meaningful part of the work was *deciding* scope, not just building.
 - Walk the core flow: register/login → browse shows → hold seats (time-bound) → pay → CONFIRMED
   booking, with auto-expiry if unpaid and tiered refunds on cancellation.
 - Call out the one place correctness (not just features) is explicitly graded: **concurrent booking
