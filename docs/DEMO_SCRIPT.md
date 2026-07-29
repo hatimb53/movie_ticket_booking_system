@@ -113,7 +113,12 @@ are a budget, not a script to read verbatim.
 
 **Show on screen:**
 - `mvn test` running live, or the summary output (45 tests, 0 failures).
-- Open `HoldConcurrencyTest.java` — walk the thread-pool/latch setup and the final assertions.
+- Run `HoldConcurrencyTest` on its own (`mvn test -Dtest=HoldConcurrencyTest`) and let the console
+  log scroll — it's built to narrate the race live: `=== Concurrency race starting ===` →
+  `all 8 threads ready, releasing latch` → each thread logs `WON`/`REJECTED` as it lands →
+  `=== Race finished: 1 won, 7 rejected, 0 unexpected ===` → the final HELD-seat/single-booking
+  verification line. This is the single most convincing visual for the graded concurrency
+  guarantee — worth pausing on.
 
 ---
 
