@@ -6,6 +6,10 @@ import com.mtbs.auth.UserRepository;
 import com.mtbs.auth.domain.Role;
 import com.mtbs.auth.domain.User;
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,17 +74,20 @@ class ShowBrowseTest {
     long movieId = id(adminPost("/admin/movies",
         "{\"title\":\"Dune\",\"durationMinutes\":155,\"language\":\"English\",\"rating\":\"UA\"}"));
 
-    // Weekday show (2026-07-29 is a Wednesday) -> no weekend surcharge: premium 400, regular 200.
+    // Weekday show -> no weekend surcharge: premium 400, regular 200. Computed relative to "now"
+    // (not a hardcoded calendar date) so this test doesn't rot as real time passes it by.
+    LocalDateTime weekday = nextWeekday();
     long showId = id(adminPost("/admin/shows",
         "{\"movieId\":" + movieId + ",\"screenId\":" + screenId
-            + ",\"startTime\":\"2026-07-29T18:30:00\",\"regularPrice\":200,\"premiumPrice\":400}"));
+            + ",\"startTime\":\"" + weekday.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            + "\",\"regularPrice\":200,\"premiumPrice\":400}"));
 
     // Browse by city + movie + date finds the show.
     mockMvc.perform(get("/shows")
             .header("Authorization", "Bearer " + customerToken)
             .param("city", String.valueOf(cityId))
             .param("movieId", String.valueOf(movieId))
-            .param("date", "2026-07-29"))
+            .param("date", weekday.toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.totalElements", is(1)))
         .andExpect(jsonPath("$.content[0].id", is((int) showId)))
@@ -120,10 +127,11 @@ class ShowBrowseTest {
     long movieId = id(adminPost("/admin/movies",
         "{\"title\":\"Tenet\",\"durationMinutes\":150,\"language\":\"English\",\"rating\":\"UA\"}"));
 
-    // 2026-08-01 is a Saturday -> regular 200 * 1.25 = 250.00
+    // A Saturday -> regular 200 * 1.25 = 250.00. Computed relative to "now" for the same reason.
     long showId = id(adminPost("/admin/shows",
         "{\"movieId\":" + movieId + ",\"screenId\":" + screenId
-            + ",\"startTime\":\"2026-08-01T20:00:00\",\"regularPrice\":200,\"premiumPrice\":400}"));
+            + ",\"startTime\":\"" + nextWeekend().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            + "\",\"regularPrice\":200,\"premiumPrice\":400}"));
 
     MvcResult seatMap = mockMvc.perform(get("/shows/" + showId + "/seats")
             .header("Authorization", "Bearer " + customerToken))
@@ -135,6 +143,24 @@ class ShowBrowseTest {
   }
 
   // --- helpers ---
+
+  /** A weekday evening far enough in the future that it stays "future" for a long time. */
+  private static LocalDateTime nextWeekday() {
+    LocalDate date = LocalDate.now().plusMonths(3);
+    while (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+      date = date.plusDays(1);
+    }
+    return date.atTime(18, 30);
+  }
+
+  /** A Saturday evening far enough in the future that it stays "future" for a long time. */
+  private static LocalDateTime nextWeekend() {
+    LocalDate date = LocalDate.now().plusMonths(3);
+    while (date.getDayOfWeek() != DayOfWeek.SATURDAY) {
+      date = date.plusDays(1);
+    }
+    return date.atTime(20, 0);
+  }
 
   private MvcResult adminPost(String path, String body) throws Exception {
     return mockMvc.perform(post(path)
