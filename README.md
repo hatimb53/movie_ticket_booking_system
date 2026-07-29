@@ -5,7 +5,7 @@ with time-bound seat holds, tiered pricing, discount codes, mock payments, confi
 and non-blocking notifications. Concurrent booking attempts on the same seat are serialized at the
 database level so a seat is never double-allocated.
 
-> SDE-2 take-home. Scope, entity choices, and edge-case coverage were deliberately owned by the
+> Scope, entity choices, and edge-case coverage were deliberately owned by the
 > implementer; the meaningful decisions are documented below.
 
 ## Tech stack & why
