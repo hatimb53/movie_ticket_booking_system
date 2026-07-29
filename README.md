@@ -55,7 +55,7 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
    `Authorization: Bearer <token>`.
 2. **Browse** — `GET /shows?city=&movieId=&date=`, `GET /shows/{id}/seats` (live availability + price).
 3. **Hold** — `POST /bookings` with `showId`, the chosen `showSeatIds` (+ optional
-   `discountCode`) → a `PENDING_PAYMENT` booking; seats are held for a configurable TTL (default 30s,
+   `discountCode`) → a `PENDING_PAYMENT` booking; seats are held for a configurable TTL (default 1 min,
    tuned short for demoing the expiry flow quickly — see Design decisions below).
 4. **Pay** — `POST /bookings/{id}/pay` → `CONFIRMED` (seats BOOKED) or `PAYMENT_FAILED` (402).
 5. **History / cancel** — `GET /bookings`, `POST /bookings/{id}/cancel` (time-tiered refund).
@@ -76,7 +76,7 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
   Concurrent attempts on the same seat serialize: exactly one wins, the rest get a clean 409. An
   expired hold is reclaimable under the same lock; a `@Scheduled` sweeper also releases lapsed holds
   so listings stay clean. Payment re-locks and re-validates the hold before charging. Default hold
-  TTL is 30s and the sweeper runs every 15s (tuned short for demoing the expiry flow quickly — both
+  TTL is 1 min and the sweeper runs every 15s (tuned short for demoing the expiry flow quickly — both
   are `app.hold.ttl-seconds` / `app.hold.sweeper-interval-ms`).
 - **Booking status stays in sync with seat expiry, not just the sweeper.** A booking whose hold has
   lapsed is reported `EXPIRED` immediately on read (`GET /bookings` compares live against
