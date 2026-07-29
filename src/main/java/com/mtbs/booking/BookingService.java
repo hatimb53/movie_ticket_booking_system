@@ -17,9 +17,13 @@ import com.mtbs.payment.PaymentService.RefundResult;
 import com.mtbs.refund.RefundPolicyResolver;
 import com.mtbs.refund.RefundRepository;
 import com.mtbs.refund.domain.Refund;
+import com.mtbs.show.ShowRepository;
 import com.mtbs.show.ShowSeatRepository;
+import com.mtbs.show.dto.ShowDtos.ShowCancellationResponse;
+import com.mtbs.show.domain.Show;
 import com.mtbs.show.domain.ShowSeat;
 import com.mtbs.show.domain.ShowSeatStatus;
+import com.mtbs.show.domain.ShowStatus;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
@@ -52,6 +56,7 @@ public class BookingService {
   private static final Logger log = LoggerFactory.getLogger(BookingService.class);
 
   private final ShowSeatRepository showSeatRepository;
+  private final ShowRepository showRepository;
   private final BookingRepository bookingRepository;
   private final UserRepository userRepository;
   private final DiscountService discountService;
@@ -63,6 +68,7 @@ public class BookingService {
 
   public BookingService(
       ShowSeatRepository showSeatRepository,
+      ShowRepository showRepository,
       BookingRepository bookingRepository,
       UserRepository userRepository,
       DiscountService discountService,
@@ -72,6 +78,7 @@ public class BookingService {
       ApplicationEventPublisher eventPublisher,
       @Value("${app.hold.ttl-seconds:300}") long ttlSeconds) {
     this.showSeatRepository = showSeatRepository;
+    this.showRepository = showRepository;
     this.bookingRepository = bookingRepository;
     this.userRepository = userRepository;
     this.discountService = discountService;
@@ -107,6 +114,9 @@ public class BookingService {
     for (ShowSeat seat : seats) {
       if (!seat.getShow().getId().equals(showId)) {
         throw new SeatUnavailableException("Seat " + seat.getId() + " is not part of show " + showId);
+      }
+      if (seat.getShow().getStatus() == ShowStatus.CANCELLED) {
+        throw new SeatUnavailableException("Show " + showId + " has been cancelled");
       }
       boolean lapsed = seat.getStatus() == ShowSeatStatus.HELD && seat.isHoldExpired(now);
       boolean bookable = seat.getStatus() == ShowSeatStatus.AVAILABLE || lapsed;
@@ -236,6 +246,54 @@ public class BookingService {
         booking.getShow().getMovie().getTitle(),
         refundAmount));
     return new CancellationResponse(bookingId, booking.getStatus().name(), refundAmount, percent);
+  }
+
+  // --- Admin: cancel a whole show --------------------------------------------
+
+  /**
+   * Admin-initiated show cancellation (movie pulled, technical issue, etc.) — distinct from a
+   * customer's {@link #cancel}, which only ever touches one booking and respects the theater's
+   * refund-policy tiers. Here every CONFIRMED booking is refunded in full (the theater's fault,
+   * not the customer's, and there's no "hours before show" schedule to apply a tier against once
+   * the show itself is gone); every still-unpaid PENDING_PAYMENT hold is simply expired, since no
+   * charge ever happened. Locks all of the show's seats first so this serializes against any
+   * hold()/pay() already in flight for the show.
+   */
+  @Transactional
+  public ShowCancellationResponse cancelShow(Long showId) {
+    Show show = showRepository.findById(showId)
+        .orElseThrow(() -> new ResourceNotFoundException("Show " + showId + " not found"));
+    if (show.getStatus() == ShowStatus.CANCELLED) {
+      throw new InvalidBookingStateException("Show " + showId + " is already cancelled");
+    }
+
+    // Serializes against concurrent hold()/pay() calls on this show's seats.
+    showSeatRepository.lockByShowId(showId);
+
+    List<Booking> confirmed = bookingRepository.findByShowIdAndStatus(showId, BookingStatus.CONFIRMED);
+    BigDecimal totalRefunded = BigDecimal.ZERO;
+    for (Booking booking : confirmed) {
+      RefundResult outcome = paymentService.refund(
+          booking.getId(), booking.getTotal(), "show-cancelled-" + showId);
+      refundRepository.save(
+          new Refund(booking.getId(), booking.getTotal(), new BigDecimal("100"), outcome.reference()));
+      if (booking.getDiscount() != null) {
+        discountService.release(booking.getDiscount().getId());
+      }
+      booking.markCancelled();
+      totalRefunded = totalRefunded.add(booking.getTotal());
+      eventPublisher.publishEvent(new BookingCancelledEvent(
+          booking.getId(), booking.getOwner().getEmail(), show.getMovie().getTitle(), booking.getTotal()));
+    }
+
+    List<Booking> pending = bookingRepository.findByShowIdAndStatus(showId, BookingStatus.PENDING_PAYMENT);
+    pending.forEach(Booking::markExpired);
+    bookingRepository.saveAll(pending);
+
+    show.cancel();
+    showRepository.save(show);
+
+    return new ShowCancellationResponse(showId, confirmed.size(), totalRefunded, pending.size());
   }
 
   // --- Read -----------------------------------------------------------------

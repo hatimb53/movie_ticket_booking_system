@@ -5,6 +5,8 @@ import com.mtbs.catalog.domain.Screen;
 import com.mtbs.common.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -37,6 +39,10 @@ public class Show extends BaseEntity {
   @Column(nullable = false)
   private BigDecimal premiumPrice;
 
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private ShowStatus status;
+
   protected Show() {
   }
 
@@ -47,6 +53,7 @@ public class Show extends BaseEntity {
     this.startTime = startTime;
     this.regularPrice = regularPrice;
     this.premiumPrice = premiumPrice;
+    this.status = ShowStatus.SCHEDULED;
   }
 
   public Movie getMovie() {
@@ -67,5 +74,13 @@ public class Show extends BaseEntity {
 
   public BigDecimal getPremiumPrice() {
     return premiumPrice;
+  }
+
+  public ShowStatus getStatus() {
+    return status;
+  }
+
+  public void cancel() {
+    this.status = ShowStatus.CANCELLED;
   }
 }

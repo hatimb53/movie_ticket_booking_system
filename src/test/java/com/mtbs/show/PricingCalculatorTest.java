@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test;
  */
 class PricingCalculatorTest {
 
-  private final PricingCalculator calculator = new PricingCalculator(new BigDecimal("1.25"));
+  private final PricingCalculator calculator = new PricingCalculator();
+  private static final BigDecimal MULTIPLIER = new BigDecimal("1.25");
 
   private static final BigDecimal REGULAR_BASE = new BigDecimal("200.00");
   private static final BigDecimal PREMIUM_BASE = new BigDecimal("400.00");
@@ -23,25 +24,25 @@ class PricingCalculatorTest {
 
   @Test
   void regularSeatOnWeekdayIsBasePrice() {
-    assertThat(calculator.priceFor(SeatCategory.REGULAR, REGULAR_BASE, PREMIUM_BASE, WEEKDAY))
+    assertThat(calculator.priceFor(SeatCategory.REGULAR, REGULAR_BASE, PREMIUM_BASE, WEEKDAY, MULTIPLIER))
         .isEqualByComparingTo("200.00");
   }
 
   @Test
   void premiumSeatOnWeekdayIsPremiumBase() {
-    assertThat(calculator.priceFor(SeatCategory.PREMIUM, REGULAR_BASE, PREMIUM_BASE, WEEKDAY))
+    assertThat(calculator.priceFor(SeatCategory.PREMIUM, REGULAR_BASE, PREMIUM_BASE, WEEKDAY, MULTIPLIER))
         .isEqualByComparingTo("400.00");
   }
 
   @Test
   void regularSeatOnWeekendGetsSurcharge() {
-    assertThat(calculator.priceFor(SeatCategory.REGULAR, REGULAR_BASE, PREMIUM_BASE, WEEKEND))
+    assertThat(calculator.priceFor(SeatCategory.REGULAR, REGULAR_BASE, PREMIUM_BASE, WEEKEND, MULTIPLIER))
         .isEqualByComparingTo("250.00");
   }
 
   @Test
   void premiumSeatOnWeekendStacksCategoryAndSurcharge() {
-    assertThat(calculator.priceFor(SeatCategory.PREMIUM, REGULAR_BASE, PREMIUM_BASE, WEEKEND))
+    assertThat(calculator.priceFor(SeatCategory.PREMIUM, REGULAR_BASE, PREMIUM_BASE, WEEKEND, MULTIPLIER))
         .isEqualByComparingTo("500.00");
   }
 }
