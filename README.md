@@ -55,7 +55,8 @@ register/login → browse shows → hold seats (time-bound) → pay → CONFIRME
    `Authorization: Bearer <token>`.
 2. **Browse** — `GET /shows?city=&movieId=&date=`, `GET /shows/{id}/seats` (live availability + price).
 3. **Hold** — `POST /bookings` with `showId`, the chosen `showSeatIds` (+ optional
-   `discountCode`) → a `PENDING_PAYMENT` booking; seats are held for a configurable TTL (default 5 min).
+   `discountCode`) → a `PENDING_PAYMENT` booking; seats are held for a configurable TTL (default 30s,
+   tuned short for demoing the expiry flow quickly — see Design decisions below).
 4. **Pay** — `POST /bookings/{id}/pay` → `CONFIRMED` (seats BOOKED) or `PAYMENT_FAILED` (402).
 5. **History / cancel** — `GET /bookings`, `POST /bookings/{id}/cancel` (time-tiered refund).
 6. **Admin** — `/admin/**` (cities, theaters, screens + seat layout, movies, shows, discounts,

@@ -39,14 +39,14 @@ The submission is graded on the repo contents, so these are not optional:
 
 ## Workflow skills available
 
-This repo has `.claude/skills/` populated with Matt Pocock's engineering skill set. Typical flow
-for a feature: `/grill-me` or `/grilling` to pressure-test scope decisions → `/to-spec` to turn
-the discussion into a spec (PRD) → `/to-tickets` to break the spec into vertical-slice tickets →
-`/tdd` / `/implement` to build → `/code-review` before calling something done. Run
-`/setup-matt-pocock-skills` once before first use of the engineering skills — it configures
-tickets to write to local files under `.scratch/` (there is no external issue tracker for this
-assignment) and the domain doc layout. `/domain-modeling` and `/codebase-design` are for pinning
-down the booking-domain glossary and module boundaries as they emerge.
+This repo has `.claude/skills/` populated with a subset of Matt Pocock's engineering skill set —
+only the skills actually exercised while building this submission were kept (`ask-matt`,
+`codebase-design`, `diagnosing-bugs`, `domain-modeling`, and `implement` were installed but never
+used, so they were removed). Typical flow for a feature: `/grill-me` or `/grilling` to pressure-test
+scope decisions → `/to-spec` to turn the discussion into a spec (PRD) → `/to-tickets` to break the
+spec into vertical-slice tickets → `/tdd` to build → `/code-review` before calling something done.
+`/setup-matt-pocock-skills` was run once before first use — it configured tickets to write to local
+files under `.scratch/` (there is no external issue tracker for this assignment).
 
 ## Concurrency
 
