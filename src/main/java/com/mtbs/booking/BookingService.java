@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,14 +103,24 @@ public class BookingService {
     }
 
     Instant now = Instant.now();
+    List<Long> reclaimedSeatIds = new ArrayList<>();
     for (ShowSeat seat : seats) {
       if (!seat.getShow().getId().equals(showId)) {
         throw new SeatUnavailableException("Seat " + seat.getId() + " is not part of show " + showId);
       }
-      boolean bookable = seat.getStatus() == ShowSeatStatus.AVAILABLE || seat.isHoldExpired(now);
+      boolean lapsed = seat.getStatus() == ShowSeatStatus.HELD && seat.isHoldExpired(now);
+      boolean bookable = seat.getStatus() == ShowSeatStatus.AVAILABLE || lapsed;
       if (!bookable) {
         throw new SeatUnavailableException("Seat " + seat.getSeat().getLabel() + " is not available");
       }
+      if (lapsed) {
+        reclaimedSeatIds.add(seat.getId());
+      }
+    }
+    if (!reclaimedSeatIds.isEmpty()) {
+      List<Booking> lapsedBookings = bookingRepository.findPendingByAnySeatIdIn(reclaimedSeatIds);
+      lapsedBookings.forEach(Booking::markExpired);
+      bookingRepository.saveAll(lapsedBookings);
     }
 
     Instant holdUntil = now.plusSeconds(ttlSeconds);
@@ -231,8 +242,9 @@ public class BookingService {
 
   @Transactional(readOnly = true)
   public List<BookingResponse> myBookings(String userEmail) {
+    Instant now = Instant.now();
     return bookingRepository.findByOwnerEmailOrderByIdDesc(userEmail).stream()
-        .map(BookingMapper::toBooking)
+        .map(b -> BookingMapper.toBooking(b, now))
         .toList();
   }
 
@@ -251,8 +263,15 @@ public class BookingService {
     if (expired.isEmpty()) {
       return;
     }
+    List<Long> seatIds = expired.stream().map(ShowSeat::getId).toList();
     expired.forEach(ShowSeat::release);
     showSeatRepository.saveAll(expired);
-    log.debug("Released {} expired seat hold(s)", expired.size());
+
+    List<Booking> lapsedBookings = bookingRepository.findPendingByAnySeatIdIn(seatIds);
+    lapsedBookings.forEach(Booking::markExpired);
+    bookingRepository.saveAll(lapsedBookings);
+
+    log.debug("Released {} expired seat hold(s), expired {} booking(s)",
+        expired.size(), lapsedBookings.size());
   }
 }

@@ -12,6 +12,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
   List<Booking> findByOwnerEmailOrderByIdDesc(String email);
 
   @Query("""
+      select distinct b from Booking b join b.seats s
+      where b.status = com.mtbs.booking.domain.BookingStatus.PENDING_PAYMENT
+        and s.id in :seatIds
+      """)
+  List<Booking> findPendingByAnySeatIdIn(@Param("seatIds") List<Long> seatIds);
+
+  @Query("""
       select b from Booking b
       where b.status = com.mtbs.booking.domain.BookingStatus.CONFIRMED
         and b.show.startTime between :from and :to

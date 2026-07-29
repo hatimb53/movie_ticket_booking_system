@@ -31,8 +31,8 @@ app:
   pricing:
     weekend-multiplier: 1.25
   hold:
-    ttl-seconds: 300
-    sweeper-interval-ms: 30000
+    ttl-seconds: 30
+    sweeper-interval-ms: 15000
   reminder:
     window-minutes: 120
     interval-ms: 60000
