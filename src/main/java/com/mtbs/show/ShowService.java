@@ -14,6 +14,7 @@ import com.mtbs.show.dto.ShowDtos.ScheduleShowRequest;
 import com.mtbs.show.dto.ShowDtos.SeatMapEntry;
 import com.mtbs.show.dto.ShowDtos.SeatMapResponse;
 import com.mtbs.show.dto.ShowDtos.ShowResponse;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,18 +37,21 @@ public class ShowService {
   private final ShowRepository showRepository;
   private final ShowSeatRepository showSeatRepository;
   private final PricingCalculator pricingCalculator;
+  private final PricingConfigService pricingConfigService;
 
   public ShowService(
       MovieRepository movieRepository,
       ScreenRepository screenRepository,
       ShowRepository showRepository,
       ShowSeatRepository showSeatRepository,
-      PricingCalculator pricingCalculator) {
+      PricingCalculator pricingCalculator,
+      PricingConfigService pricingConfigService) {
     this.movieRepository = movieRepository;
     this.screenRepository = screenRepository;
     this.showRepository = showRepository;
     this.showSeatRepository = showSeatRepository;
     this.pricingCalculator = pricingCalculator;
+    this.pricingConfigService = pricingConfigService;
   }
 
   @Transactional
@@ -83,10 +87,12 @@ public class ShowService {
     Show show = showRepository.save(new Show(
         movie, screen, request.startTime(), request.regularPrice(), request.premiumPrice()));
 
+    BigDecimal weekendMultiplier = pricingConfigService.getWeekendMultiplier();
     List<ShowSeat> showSeats = new ArrayList<>();
     for (Seat seat : screen.getSeats()) {
       var price = pricingCalculator.priceFor(
-          seat.getCategory(), request.regularPrice(), request.premiumPrice(), request.startTime());
+          seat.getCategory(), request.regularPrice(), request.premiumPrice(), request.startTime(),
+          weekendMultiplier);
       showSeats.add(new ShowSeat(show, seat, price));
     }
     showSeatRepository.saveAll(showSeats);
