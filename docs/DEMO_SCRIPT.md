@@ -19,17 +19,17 @@ are a budget, not a script to read verbatim.
   attempts on the same seat must serialize with no double-allocation.** This shaped the whole
   design — seat holds use pessimistic locking (`SELECT ... FOR UPDATE`), not an optimistic
   assumption that requests arrive one at a time.
-- Two features built beyond the literal brief, documented as deliberate assumptions in
-  `README.md`: **show-cancellation** (admin can cancel a scheduled show, refunding confirmed
-  bookings and expiring unpaid holds) and a **screen double-booking guard** (a new show can't
-  overlap an existing one on the same screen within a 30-minute buffer, itself
-  concurrency-safe).
+- Features built beyond the literal brief, documented as deliberate assumptions in `README.md`:
+  **show-cancellation** (admin can cancel a scheduled show, refunding confirmed bookings and
+  expiring unpaid holds), a **screen double-booking guard** (a new show can't overlap an existing
+  one on the same screen within a 30-minute buffer, itself concurrency-safe), and a **notification
+  feed** (`GET /notifications`, a customer's own confirmations/cancellations/reminders latest-first).
 
 **Show on screen:**
 - `README.md` — the core-flow diagram and the "Design decisions & assumptions" section.
 - Swagger UI (`http://localhost:8080/swagger-ui.html`) — log in as the seeded customer, browse a
-  show, hold a seat, pay, view booking history. This is the fastest way to prove the whole flow
-  works end-to-end live.
+  show, hold a seat, pay, check `GET /notifications` for the confirmation that just landed, view
+  booking history. This is the fastest way to prove the whole flow works end-to-end live.
 
 ---
 
@@ -105,14 +105,14 @@ are a budget, not a script to read verbatim.
   arrives *after* commit, off the request thread — proving notifications never block booking.
 - Coverage across every domain module: auth/RBAC, admin catalog, show scheduling + pricing +
   browse, seat holds + expiry, payment + booking confirmation, discount codes, cancellation +
-  refunds, show cancellation, pricing config. 45 tests total, all green.
+  refunds, show cancellation, pricing config. 46 tests total, all green.
 - One deliberate testing gap, documented rather than hidden: no Testcontainers/Postgres-backed
   integration test — no Docker available in this environment — so the concurrency guarantee is
   proven on H2 with the `LOCK_TIMEOUT` caveat explained above, and the datasource swap to Postgres
   is a config change, not a code change.
 
 **Show on screen:**
-- `mvn test` running live, or the summary output (45 tests, 0 failures).
+- `mvn test` running live, or the summary output (46 tests, 0 failures).
 - Run `HoldConcurrencyTest` on its own (`mvn test -Dtest=HoldConcurrencyTest`) and let the console
   log scroll — it's built to narrate the race live: `=== Concurrency race starting ===` →
   `all 8 threads ready, releasing latch` → each thread logs `WON`/`REJECTED` as it lands →
